@@ -33,6 +33,9 @@ public class GunDirection : MonoBehaviour
     public GameObject leftCannonObj;
     public GameObject rightCannonObj;
 
+    public GameObject leftGrabPoint;
+    public GameObject rightGrabPoint;
+
     //public SteamVR_TrackedObject trackedObjR;
     public SteamVR_TrackedObject trackedObjL;
     public SteamVR_TrackedObject trackedObjR;
@@ -58,7 +61,7 @@ public class GunDirection : MonoBehaviour
     void Update()
     {
 
-        //Debug.DrawLine(leftHand.position, rightHand.position);
+        /*//Debug.DrawLine(leftHand.position, rightHand.position);
         midpoint = leftHand.position + (rightHand.position - leftHand.position) / 2;
 
         MiddleCube.transform.position = midpoint;
@@ -92,8 +95,10 @@ public class GunDirection : MonoBehaviour
         }
 
         GunSwivle.transform.eulerAngles = new Vector3(VertMapping.Evaluate(averageY), MiddleCube.transform.eulerAngles.y -90f, GunSwivle.transform.localRotation.z);
-
+        */
         //Debug.Log(ControllerDistance);
+
+        UpdateHands();
 
         SteamVR_Controller.Device deviceL = SteamVR_Controller.Input((int)trackedObjL.index);
         if(deviceL.GetTouch(SteamVR_Controller.ButtonMask.Trigger) && LeftFireFlag == false)
@@ -112,6 +117,33 @@ public class GunDirection : MonoBehaviour
         // Get velocity of chair for movement SFX
         Debug.Log("Chair spin velocity is: " + (deviceR.velocity.magnitude * deviceL.velocity.magnitude));
         Fabric.EventManager.Instance.SetParameter("SFX/Gun/Roller", "Velocity", (deviceR.velocity.magnitude * deviceL.velocity.magnitude), gameObject);
+
+    }
+
+    public void UpdateHands()
+    {
+        const float gripBreakDist = 0.25f;
+        Vector3 leftPointToHand = leftHand.transform.position - leftGrabPoint.transform.position;
+        Vector3 rightPointToHand = rightHand.transform.position - rightGrabPoint.transform.position;
+        Vector3 baseToLeftHand = leftHand.transform.position - GunBase.transform.position;
+        Vector3 baseToRightHand = leftHand.transform.position - GunBase.transform.position;
+
+        Vector3 dragVector = Vector3.zero;
+        if(leftPointToHand.magnitude <= gripBreakDist)
+        {
+            dragVector += leftPointToHand;
+        }
+        if (rightPointToHand.magnitude <= 0.1f)
+        {
+            dragVector += rightPointToHand;
+        }
+
+        Vector3 newTargetCenter = (leftGrabPoint.transform.position + rightGrabPoint.transform.position) / 2f + dragVector;
+
+        Vector3 lookRot = newTargetCenter - GunBase.transform.position;
+        lookRot.y = 0f;
+        GunBase.transform.rotation = Quaternion.LookRotation(lookRot);
+
 
     }
 
