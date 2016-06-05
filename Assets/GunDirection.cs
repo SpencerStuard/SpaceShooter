@@ -4,9 +4,12 @@ using System.Collections.Generic;
 
 public class GunDirection : MonoBehaviour
 {
+	public bool MouseKeyboardControls;
+
     //LASER STATS
     public float LaserSpeed;
     public float LaserLife;
+	public float FireRate;
 
     public AnimationClip LeftAnim;
     public AnimationCurve VertMapping;
@@ -45,6 +48,10 @@ public class GunDirection : MonoBehaviour
     public GameObject LaserPrefab;
     public GameObject SmokePartPrefab;
 
+	Vector3 LastMousePosition;
+	Vector3 MouseDelta;
+	public GameObject CameraObjecct;
+
     void Awake()
     {
         //trackedObjR = GetComponent<SteamVR_TrackedObject>();
@@ -55,70 +62,126 @@ public class GunDirection : MonoBehaviour
     void Start()
     {
         Fabric.EventManager.Instance.PostEvent("SFX/Gun/Roller", gameObject);
+		if (MouseKeyboardControls) {
+			SetUpMouseKeyBoardCamera ();
+		}
     }
 
     // Update is called once per frame
     void Update()
     {
+		if (MouseKeyboardControls) {
 
-        //Debug.DrawLine(leftHand.position, rightHand.position);
-        midpoint = leftHand.position + (rightHand.position - leftHand.position) / 2;
+			MouseDelta = LastMousePosition - Input.mousePosition;
 
-        MiddleCube.transform.position = midpoint;
-        MiddleCube.transform.LookAt(rightHand.transform,Vector3.right);
-        //Debug.DrawRay(midpoint, Vector3.Cross(GunSwivle.right.normalized, GunSwivle.up.normalized));
-        float angle = Vector3.Angle(rightHand.transform.position, leftHand.transform.position);
+			GunRoot.transform.eulerAngles = new Vector3 (GunRoot.transform.eulerAngles.x, GunRoot.transform.eulerAngles.y - MouseDelta.x, GunRoot.transform.eulerAngles.z);
 
-        //Debug.Log( angle );
+			float NewXRotation = GunSwivle.transform.eulerAngles.x + MouseDelta.y;
+
+			/*
+			if(NewXRotation <-90f) {
+				NewXRotation = -90f;
+				Debug.Log ("TEST02");
+			}
+			if (NewXRotation > 90f) {
+				NewXRotation = 90f;
+				Debug.Log ("TEST01");
+			}
+			*/
+			GunSwivle.transform.eulerAngles = new Vector3 (NewXRotation, GunSwivle.transform.eulerAngles.y, GunSwivle.transform.eulerAngles.z );
+
+			CameraObjecct.transform.rotation = GunRoot.transform.rotation;
+
+
+			LastMousePosition = Input.mousePosition;
+
+
+		} else {
+
+		
+			//Debug.DrawLine(leftHand.position, rightHand.position);
+			midpoint = leftHand.position + (rightHand.position - leftHand.position) / 2;
+
+			MiddleCube.transform.position = midpoint;
+			MiddleCube.transform.LookAt (rightHand.transform, Vector3.right);
+			//Debug.DrawRay(midpoint, Vector3.Cross(GunSwivle.right.normalized, GunSwivle.up.normalized));
+			float angle = Vector3.Angle (rightHand.transform.position, leftHand.transform.position);
         
-        //Rotate Base
-        Vector3 lookPos = midpoint - transform.position;
-        lookPos = new Vector3(lookPos.x, 0, lookPos.z);
-        Quaternion rotation = Quaternion.LookRotation(lookPos);
-        GunRoot.transform.rotation = Quaternion.Slerp(GunRoot.transform.rotation, rotation, Time.deltaTime * RotationDamping);
+			//Rotate Base
+			Vector3 lookPos = midpoint - transform.position;
+			lookPos = new Vector3 (lookPos.x, 0, lookPos.z);
+			Quaternion rotation = Quaternion.LookRotation (lookPos);
+			GunRoot.transform.rotation = Quaternion.Slerp (GunRoot.transform.rotation, rotation, Time.deltaTime * RotationDamping);
         
-        //GunSwivle
-        //GunSwivle.transform.rotation = rightHand.transform.rotation;
+			//GunSwivle
+			//GunSwivle.transform.rotation = rightHand.transform.rotation;
 
-        float averageY = (rightHand.position.y + leftHand.position.y) / 2;
+			float averageY = (rightHand.position.y + leftHand.position.y) / 2;
 
-        averageY -= 1;
-        float ControllerDistance = Vector3.Distance(leftHand.transform.position, rightHand.transform.position);
-        if (Vector3.Distance(HeadSet.transform.position, rightHand.transform.position) > Vector3.Distance(HeadSet.transform.position, leftHand.transform.position))
-        {
-            ControllerDistance *= -1f;
-            //HorzMapping.Evaluate(ControllerDistance);
-        }
-        else
-        {
-            //HorzMapping.Evaluate(ControllerDistance);
-        }
+			averageY -= 1;
+			float ControllerDistance = Vector3.Distance (leftHand.transform.position, rightHand.transform.position);
+			if (Vector3.Distance (HeadSet.transform.position, rightHand.transform.position) > Vector3.Distance (HeadSet.transform.position, leftHand.transform.position)) {
+				ControllerDistance *= -1f;
+				//HorzMapping.Evaluate(ControllerDistance);
+			} else {
+				//HorzMapping.Evaluate(ControllerDistance);
+			}
 
-        GunSwivle.transform.eulerAngles = new Vector3(VertMapping.Evaluate(averageY), MiddleCube.transform.eulerAngles.y -90f, GunSwivle.transform.localRotation.z);
+			GunSwivle.transform.eulerAngles = new Vector3 (VertMapping.Evaluate (averageY), MiddleCube.transform.eulerAngles.y - 90f, GunSwivle.transform.localRotation.z);
         
-        //Debug.Log(ControllerDistance);
+			//Debug.Log(ControllerDistance);
 
-        //UpdateHands();
+			//UpdateHands();
+			SteamVR_Controller.Device deviceL = SteamVR_Controller.Input ((int)trackedObjL.index);
+			SteamVR_Controller.Device deviceR = SteamVR_Controller.Input ((int)trackedObjR.index);
 
-        SteamVR_Controller.Device deviceL = SteamVR_Controller.Input((int)trackedObjL.index);
-        if(deviceL.GetTouch(SteamVR_Controller.ButtonMask.Trigger) && LeftFireFlag == false)
-        {
-            LeftFireFlag = true;
-            StartCoroutine(FireLeftCannon());
-        }
+			// Get velocity of chair for movement SFX
+			Debug.Log ("Chair spin velocity is: " + (deviceR.velocity.magnitude * deviceL.velocity.magnitude));
+			Fabric.EventManager.Instance.SetParameter ("SFX/Gun/Roller", "Velocity", (deviceR.velocity.magnitude * deviceL.velocity.magnitude), gameObject);
 
-        SteamVR_Controller.Device deviceR = SteamVR_Controller.Input((int)trackedObjR.index);
-        if (deviceR.GetTouch(SteamVR_Controller.ButtonMask.Trigger) && RightFireFlag == false)
-        {
-            RightFireFlag = true;
-            StartCoroutine(FireRightCannon());
-        }
-        
-        // Get velocity of chair for movement SFX
-        Debug.Log("Chair spin velocity is: " + (deviceR.velocity.magnitude * deviceL.velocity.magnitude));
-        Fabric.EventManager.Instance.SetParameter("SFX/Gun/Roller", "Velocity", (deviceR.velocity.magnitude * deviceL.velocity.magnitude), gameObject);
+		}
+		FireGuns ();
+
 
     }
+
+	void FireGuns ()
+	{
+		if (!MouseKeyboardControls) {
+			SteamVR_Controller.Device deviceL = SteamVR_Controller.Input ((int)trackedObjL.index);
+			if (deviceL.GetTouch (SteamVR_Controller.ButtonMask.Trigger) && LeftFireFlag == false) {
+				LeftFireFlag = true;
+				StartCoroutine (FireLeftCannon ());
+			}
+
+			SteamVR_Controller.Device deviceR = SteamVR_Controller.Input ((int)trackedObjR.index);
+			if (deviceR.GetTouch (SteamVR_Controller.ButtonMask.Trigger) && RightFireFlag == false) {
+				RightFireFlag = true;
+				StartCoroutine (FireRightCannon ());
+			}
+		}
+
+		if (Input.GetMouseButton (0) && RightFireFlag == false) {
+			//Debug.Log ("LEFT");
+			RightFireFlag = true;
+			StartCoroutine (FireRightCannon ());
+
+		}
+
+		if (Input.GetMouseButton (1) && LeftFireFlag == false) {
+
+			LeftFireFlag = true;
+			StartCoroutine (FireLeftCannon ());
+
+		}
+	}
+
+	void SetUpMouseKeyBoardCamera ()
+	{
+		Camera.main.GetComponent<Camera> ().fieldOfView = 100f;
+		Camera.main.GetComponent<SteamVR_TrackedObject> ().enabled = false;
+		CameraObjecct.transform.parent = GunRoot.transform;
+	}
 
     public void UpdateHands()
     {
@@ -155,31 +218,35 @@ public class GunDirection : MonoBehaviour
 
     public IEnumerator FireLeftCannon()
     {
+		FireLaser(LCannonPoint);
         Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", leftCannonObj);
-
-        SteamVR_Controller.Device deviceL = SteamVR_Controller.Input((int)trackedObjL.index);
-        deviceL.TriggerHapticPulse(3000);
+		if (!MouseKeyboardControls) {
+			SteamVR_Controller.Device deviceL = SteamVR_Controller.Input ((int)trackedObjL.index);
+			deviceL.TriggerHapticPulse (3000);
+		}
         transform.GetComponent<Animator>().SetBool("New Bool",true);
-        yield return new WaitForSeconds(.25f);
+        yield return null;
         transform.GetComponent<Animator>().SetBool("New Bool", false);
 
         //FIRELASER
-        FireLaser(LCannonPoint);
+		yield return new WaitForSeconds(FireRate);
         LeftFireFlag = false;
     }
 
     public IEnumerator FireRightCannon()
     {
+		FireLaser(RCannonPoint);
         Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", rightCannonObj);
-
-        SteamVR_Controller.Device deviceR = SteamVR_Controller.Input((int)trackedObjR.index);
-        deviceR.TriggerHapticPulse(3000);
+		if (!MouseKeyboardControls) {
+			SteamVR_Controller.Device deviceR = SteamVR_Controller.Input ((int)trackedObjR.index);
+			deviceR.TriggerHapticPulse (3000);
+		}
         transform.GetComponent<Animator>().SetBool("New Bool 0", true);
-        yield return new WaitForSeconds(.25f);
+		yield return null;
         transform.GetComponent<Animator>().SetBool("New Bool 0", false);
 
         //FIRELASER
-        FireLaser(RCannonPoint);
+		yield return new WaitForSeconds(FireRate);
         RightFireFlag = false;
     }
 
