@@ -15,7 +15,7 @@ public class TargetObject : MonoBehaviour {
 		{
 			DestroyObject(other.gameObject);
 
-			GameObject.Instantiate (explosion as Object);
+			GameObject.Instantiate (explosion, transform.position, explosion.transform.rotation);
 			explosionSFX.Play ();
 			AddScore ();
 

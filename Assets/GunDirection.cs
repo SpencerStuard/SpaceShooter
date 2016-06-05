@@ -61,7 +61,7 @@ public class GunDirection : MonoBehaviour
     void Update()
     {
 
-        /*//Debug.DrawLine(leftHand.position, rightHand.position);
+        //Debug.DrawLine(leftHand.position, rightHand.position);
         midpoint = leftHand.position + (rightHand.position - leftHand.position) / 2;
 
         MiddleCube.transform.position = midpoint;
@@ -95,10 +95,10 @@ public class GunDirection : MonoBehaviour
         }
 
         GunSwivle.transform.eulerAngles = new Vector3(VertMapping.Evaluate(averageY), MiddleCube.transform.eulerAngles.y -90f, GunSwivle.transform.localRotation.z);
-        */
+        
         //Debug.Log(ControllerDistance);
 
-        UpdateHands();
+        //UpdateHands();
 
         SteamVR_Controller.Device deviceL = SteamVR_Controller.Input((int)trackedObjL.index);
         if(deviceL.GetTouch(SteamVR_Controller.ButtonMask.Trigger) && LeftFireFlag == false)
@@ -125,8 +125,12 @@ public class GunDirection : MonoBehaviour
         const float gripBreakDist = 0.25f;
         Vector3 leftPointToHand = leftHand.transform.position - leftGrabPoint.transform.position;
         Vector3 rightPointToHand = rightHand.transform.position - rightGrabPoint.transform.position;
-        Vector3 baseToLeftHand = leftHand.transform.position - GunBase.transform.position;
-        Vector3 baseToRightHand = leftHand.transform.position - GunBase.transform.position;
+        Vector3 swivelToLeftHand = leftHand.transform.position - GunSwivle.transform.position;
+        Vector3 swivelToRightHand = rightHand.transform.position - GunSwivle.transform.position;
+        Vector3 swivelToCenter = (swivelToLeftHand + swivelToRightHand) / 2f;
+        Vector3 swivelToRightGrab = rightGrabPoint.transform.position - GunSwivle.transform.position;
+        Vector3 swivelToLeftGrab = leftGrabPoint.transform.position - GunSwivle.transform.position;
+        Vector3 swivelToGrabCenter = (swivelToLeftGrab + swivelToRightGrab) / 2f;
 
         Vector3 dragVector = Vector3.zero;
         if(leftPointToHand.magnitude <= gripBreakDist)
@@ -144,7 +148,9 @@ public class GunDirection : MonoBehaviour
         lookRot.y = 0f;
         GunBase.transform.rotation = Quaternion.LookRotation(lookRot);
 
+        float angle = Vector3.Angle(swivelToCenter, swivelToGrabCenter);
 
+        GunSwivle.transform.rotation = Quaternion.LookRotation(-swivelToCenter);
     }
 
     public IEnumerator FireLeftCannon()
