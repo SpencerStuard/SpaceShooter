@@ -179,6 +179,7 @@ public class GunDirection : MonoBehaviour
 
 	void SetUpMouseKeyBoardCamera ()
 	{
+        Debug.Log("trdying");
         Camera.main.GetComponent<Camera>().fieldOfView = 100f;
         HeadObject.transform.GetComponent<SteamVR_TrackedObject>().enabled = false;
 		CameraObject.transform.parent = GunRoot.transform;
