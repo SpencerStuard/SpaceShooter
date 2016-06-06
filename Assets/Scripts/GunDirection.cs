@@ -50,7 +50,8 @@ public class GunDirection : MonoBehaviour
 
 	Vector3 LastMousePosition;
 	Vector3 MouseDelta;
-	public GameObject CameraObjecct;
+	public GameObject CameraObject;
+    public GameObject HeadObject;
 
     void Awake()
     {
@@ -90,7 +91,7 @@ public class GunDirection : MonoBehaviour
 			*/
 			GunSwivle.transform.eulerAngles = new Vector3 (NewXRotation, GunSwivle.transform.eulerAngles.y, GunSwivle.transform.eulerAngles.z );
 
-			CameraObjecct.transform.rotation = GunRoot.transform.rotation;
+			CameraObject.transform.rotation = GunRoot.transform.rotation;
 
 
 			LastMousePosition = Input.mousePosition;
@@ -178,9 +179,9 @@ public class GunDirection : MonoBehaviour
 
 	void SetUpMouseKeyBoardCamera ()
 	{
-		Camera.main.GetComponent<Camera> ().fieldOfView = 100f;
-		Camera.main.GetComponent<SteamVR_TrackedObject> ().enabled = false;
-		CameraObjecct.transform.parent = GunRoot.transform;
+        Camera.main.GetComponent<Camera>().fieldOfView = 100f;
+        HeadObject.transform.GetComponent<SteamVR_TrackedObject>().enabled = false;
+		CameraObject.transform.parent = GunRoot.transform;
 	}
 
     public void UpdateHands()
