@@ -1,0 +1,142 @@
+fileFormatVersion: 2
+guid: 00e272a9d99325644aaa4fc80b20a888
+timeCreated: 1465409977
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: AntenaLight
+    100002: Atena
+    100004: Base
+    100006: Hat
+    100008: Head
+    100010: //RootNode
+    100012: LeftGun
+    100014: LeftGunBottomBarrel
+    100016: LeftGunLasterPoint01
+    100018: LeftGunLasterPoint02
+    100020: LeftGunTopBarrel
+    100022: Lens
+    100024: RightGun
+    100026: RightGunBottomBarrel
+    100028: RightGunLasterPoint01
+    100030: RightGunLasterPoint02
+    100032: RightGunTopBarrel
+    400000: AntenaLight
+    400002: Atena
+    400004: Base
+    400006: Hat
+    400008: Head
+    400010: //RootNode
+    400012: LeftGun
+    400014: LeftGunBottomBarrel
+    400016: LeftGunLasterPoint01
+    400018: LeftGunLasterPoint02
+    400020: LeftGunTopBarrel
+    400022: Lens
+    400024: RightGun
+    400026: RightGunBottomBarrel
+    400028: RightGunLasterPoint01
+    400030: RightGunLasterPoint02
+    400032: RightGunTopBarrel
+    2300000: AntenaLight
+    2300002: Atena
+    2300004: Base
+    2300006: Hat
+    2300008: Head
+    2300010: LeftGun
+    2300012: LeftGunBottomBarrel
+    2300014: LeftGunTopBarrel
+    2300016: Lens
+    2300018: RightGun
+    2300020: RightGunBottomBarrel
+    2300022: RightGunTopBarrel
+    3300000: AntenaLight
+    3300002: Atena
+    3300004: Base
+    3300006: Hat
+    3300008: Head
+    3300010: LeftGun
+    3300012: LeftGunBottomBarrel
+    3300014: LeftGunTopBarrel
+    3300016: Lens
+    3300018: RightGun
+    3300020: RightGunBottomBarrel
+    3300022: RightGunTopBarrel
+    4300000: Hat
+    4300002: Atena
+    4300004: AntenaLight
+    4300006: Base
+    4300008: LeftGun
+    4300010: LeftGunTopBarrel
+    4300012: LeftGunBottomBarrel
+    4300014: RightGun
+    4300016: RightGunTopBarrel
+    4300018: RightGunBottomBarrel
+    4300020: Head
+    4300022: Lens
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.2
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

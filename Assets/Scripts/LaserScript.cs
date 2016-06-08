@@ -13,7 +13,7 @@ public class LaserScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Translate(new Vector3(0, -LaserSpeed * Time.deltaTime, 0), Space.Self);
+        transform.Translate(new Vector3(0, 0, -LaserSpeed * Time.deltaTime), Space.Self);
 	}
 
     void DestroyMe()

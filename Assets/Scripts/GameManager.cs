@@ -39,7 +39,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		EnemySpawner.SetActive(false);
+		//EnemySpawner.SetActive(false);
 	}
 	
 	// Update is called once per frame
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour {
 	{
 		CurrentWaveNumber = 0;
 		CurrentGameStates = GameState.InWave;
-		EnemySpawner.SetActive(true);
+		//EnemySpawner.SetActive(true);
 		UIParent.SetActive(false);
 	}
 }
