@@ -22,6 +22,8 @@ public class HoverTurretEnemy : MonoBehaviour {
     public List<Transform> FiringPoints = new List<Transform>();
     int currentFireBarrel = 0;
 
+    int UnitHealth = 10;
+
     // Use this for initialization
     void Start () {
         Invoke("Aim", IdleTime);
@@ -111,5 +113,46 @@ public class HoverTurretEnemy : MonoBehaviour {
         yield return new WaitForSeconds(FireRate);
 
         StartCoroutine("FiringBehavior");
+    }
+
+    void OnTriggerEnter(Collider c)
+    {
+        if (c.transform.tag == "PlayerLaser")
+        {
+            DoHit(c);
+        }
+
+    }
+
+    void DoHit(Collider c)
+    {
+
+        //Spawn a particle effect
+        ParticleManager._instance.SpawnShildPart(c.transform.position, PlayerTrans.gameObject);
+
+        //Play Sound
+        //Fabric.EventManager.Instance.PostEvent("SFX/Enemy/Damage", gameObject);
+
+        //Move Unit
+        float ForceAmount = 5;
+        Vector3 force_direction = (transform.position - PlayerTrans.position).normalized;
+        transform.GetComponent<Rigidbody>().AddForceAtPosition(force_direction * ForceAmount, c.transform.position, ForceMode.Impulse);
+
+        //Stop from firing
+
+        //Reduce health
+        UnitHealth--;
+
+        //Check for dead
+        if (UnitHealth <= 0)
+        {
+            DoKilled();
+        }
+    }
+
+    void DoKilled ()
+    {
+
+
     }
 }
