@@ -22,7 +22,7 @@ public class HoverTurretEnemy : MonoBehaviour {
     public List<Transform> FiringPoints = new List<Transform>();
     int currentFireBarrel = 0;
 
-    int UnitHealth = 10;
+    int UnitHealth = 5;
 
     // Use this for initialization
     void Start () {
@@ -52,6 +52,7 @@ public class HoverTurretEnemy : MonoBehaviour {
         LookDirection = Quaternion.LookRotation(PlayerTrans.position - transform.position, Vector3.up);
         FromDirection = GOHead.rotation;
         LookDirection.z = 0;
+        LookDirection.x = 0;
         while (c < t)
         {
             GOHead.rotation = Quaternion.Slerp(FromDirection, LookDirection, rotateAmount );
@@ -67,6 +68,7 @@ public class HoverTurretEnemy : MonoBehaviour {
         LookDirection = Quaternion.LookRotation(PlayerTrans.position - transform.position, Vector3.up);
         FromDirection = GOBase.rotation;
         LookDirection.z = 0;
+        LookDirection.x = 0;
         while (c < t)
         {
             GOBase.rotation = Quaternion.Slerp(FromDirection, LookDirection, rotateAmount);
@@ -146,13 +148,23 @@ public class HoverTurretEnemy : MonoBehaviour {
         //Check for dead
         if (UnitHealth <= 0)
         {
-            DoKilled();
+            DoKilled(c);
         }
     }
 
-    void DoKilled ()
+    void DoKilled (Collider c)
     {
+        //Playt explosion SFX
 
+        //Play explosion particle effect
+        ParticleManager._instance.SpawnExplosionParticle(c.transform.position, PlayerTrans.gameObject);
+
+        //Add rigid bodies and force Set kill scripts
+
+        //AddTrailParticle effects
+
+        //Destrot gameobject
+        Destroy(gameObject);
 
     }
 }

@@ -15,6 +15,7 @@ public class ParticleManager : MonoBehaviour {
     }
 
     public GameObject ShildParticle;
+    public GameObject ExplosionParticle;
 
 
     void Awake ()
@@ -49,5 +50,18 @@ public class ParticleManager : MonoBehaviour {
         //Put on a kill script
         newPart.AddComponent<KillMeAfterSeconds>();
         newPart.GetComponent<KillMeAfterSeconds>().SetUpKillMe(2f);
+    }
+
+    public void SpawnExplosionParticle(Vector3 Location, GameObject LookDirection)
+    {
+        
+        //Spawn and look at
+        GameObject newPart = Instantiate(ExplosionParticle, Location, Quaternion.identity) as GameObject;
+        newPart.transform.LookAt(LookDirection.transform);
+
+        //Put on a kill script
+        newPart.AddComponent<KillMeAfterSeconds>();
+        newPart.GetComponent<KillMeAfterSeconds>().SetUpKillMe(2f);
+
     }
 }
