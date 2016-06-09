@@ -148,16 +148,16 @@ public class HoverTurretEnemy : MonoBehaviour {
         //Check for dead
         if (UnitHealth <= 0)
         {
-            DoKilled(c);
+            DoKilled(c.transform);
         }
     }
 
-    void DoKilled (Collider c)
+    public void DoKilled (Transform c)
     {
         //Playt explosion SFX
 
         //Play explosion particle effect
-        ParticleManager._instance.SpawnExplosionParticle(c.transform.position, PlayerTrans.gameObject);
+        ParticleManager._instance.SpawnExplosionParticle(c.position, PlayerTrans.gameObject);
 
         //Add rigid bodies and force Set kill scripts
 

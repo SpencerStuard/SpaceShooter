@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
@@ -6,12 +7,17 @@ public class GameManager : MonoBehaviour {
 	private static GameManager _instance;
 
 	enum GameState{Start, Prewave, PostWave, InWave}; 
-
 	GameState CurrentGameStates = GameState.Start;
 
-	//ENEMY AND WAVE INFO
-	int CurrentWaveNumber = 0;
-	public GameObject EnemySpawner;
+    public int WaveNumber;
+
+    //UI GameObjects
+    public Text MainTextObject;
+    public GameObject PlayButtonObject;
+
+    //ENEMY AND WAVE INFO
+    int CurrentWaveNumber = 0;
+	//public GameObject EnemySpawner;
 
 	//UI INFO
 	public GameObject UIParent;
@@ -39,7 +45,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//EnemySpawner.SetActive(false);
+
 	}
 	
 	// Update is called once per frame
@@ -49,9 +55,72 @@ public class GameManager : MonoBehaviour {
 
 	public void StartGame ()
 	{
-		CurrentWaveNumber = 0;
-		CurrentGameStates = GameState.InWave;
-		//EnemySpawner.SetActive(true);
-		UIParent.SetActive(false);
+        ShipHealth.Instance.RestartGame();
+        WaveNumber = 1;
+        StartCoroutine("StartWaveUI");
 	}
+
+    IEnumerator StartWaveUI()
+    {
+        MainTextObject.gameObject.SetActive(true);
+        MainTextObject.text = "WAVE  " + WaveNumber.ToString() + " . . . 3";
+        yield return new WaitForSeconds(1.4f);
+        MainTextObject.text = "WAVE  " + WaveNumber.ToString() + " . . . 2";
+        yield return new WaitForSeconds(1.4f);
+        MainTextObject.text = "WAVE  " + WaveNumber.ToString() + " . . . 1";
+        yield return new WaitForSeconds(1.4f);
+        MainTextObject.text = "GOOD LUCK!";
+        yield return new WaitForSeconds(2f);
+        MainTextObject.gameObject.SetActive(false);
+        SpawnManager._instance.SetUpWave(WaveNumber);
+    }
+
+    public void StartNextWaveUI(int WaveNumber)
+    {
+        StartCoroutine("NextWaveUI", WaveNumber);
+    }
+
+    IEnumerator NextWaveUI(int WaveNumber)
+    {
+        //Play wave success SFX
+
+        CurrentWaveNumber = WaveNumber;
+        MainTextObject.gameObject.SetActive(true);
+        MainTextObject.text = "WAVE  " + WaveNumber.ToString() + " . . . 3";
+        yield return new WaitForSeconds(1.4f);
+        MainTextObject.text = "WAVE  " + WaveNumber.ToString() + " . . . 2";
+        yield return new WaitForSeconds(1.4f);
+        MainTextObject.text = "WAVE  " + WaveNumber.ToString() + " . . . 1";
+        yield return new WaitForSeconds(1.4f);
+        MainTextObject.text = "GOOD LUCK!";
+        yield return new WaitForSeconds(2f);
+        MainTextObject.gameObject.SetActive(false);
+        SpawnManager._instance.SetUpWave(WaveNumber);
+    }
+
+
+    public void RestartGame()
+    {
+
+    }
+
+    public void PlayerDied ()
+    {
+        //Kill all current enemies and stop spawning new ones
+        SpawnManager._instance.PlayerDied();
+
+        //SetUp End Game UI
+        StartCoroutine("StartEndGameUI");
+    }
+
+    IEnumerator StartEndGameUI ()
+    {
+        MainTextObject.gameObject.SetActive(true);
+        MainTextObject.text = "GAME OVER / SCORE = 87576";
+        yield return new WaitForSeconds(3f);
+        MainTextObject.text = "START NEW GAME";
+        PlayButtonObject.SetActive(true);
+
+
+    }
 }

@@ -5,6 +5,7 @@ public class LaserScript : MonoBehaviour {
 
     public float LaserSpeed;
     public float LaserLife;
+    //public float
 
     // Use this for initialization
     void Start () {

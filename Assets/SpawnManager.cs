@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class SpawnManager : MonoBehaviour {
 
@@ -14,36 +15,86 @@ public class SpawnManager : MonoBehaviour {
     public float MaxSpawnTime;
     public float MaxSpawnRange;
     public float MinSpawnRange = 4f;
+    //public int NumberOfEnemiesPerWave;
+    int currentWaveEnemyCount;
+    int CurrentWaveNumber;
     float timeSinceLastSpawn;
     float spawnWaitTime;
     float timeSinceWaveStarted;
+    bool IsInwave;
+
+    public List<int> EnemiesPerWave = new List<int>();
+
+
+    private static SpawnManager instance = null;
+
+    // Game Instance Singleton
+    public static SpawnManager _instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+
+    void Awake()
+    {
+        // if the singleton hasn't been initialized yet
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+
+        instance = this;
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     // Use this for initialization
     void Start () {
-        SetUpWave();
+        //SetUpWave();
 
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        timeSinceWaveStarted += Time.deltaTime;
-        timeSinceLastSpawn += Time.deltaTime;
+        if (IsInwave) {
 
-        if (timeSinceLastSpawn > spawnWaitTime)
-        {
-            SpawnEnemy();
+            timeSinceWaveStarted += Time.deltaTime;
+            timeSinceLastSpawn += Time.deltaTime;
+
+            if (timeSinceLastSpawn > spawnWaitTime && currentWaveEnemyCount < EnemiesPerWave[CurrentWaveNumber])
+            {
+                SpawnEnemy();
+                currentWaveEnemyCount++;
+            }
+
+            if (currentWaveEnemyCount == EnemiesPerWave[CurrentWaveNumber] && EnemyParent.childCount == 0)
+            {
+                IsInwave = false;
+                NextWave();
+            }
         }
 
     }
 
-    public void SetUpWave ()
+    public void SetUpWave (int WaveNumber)
     {
+        CurrentWaveNumber = WaveNumber;
+        currentWaveEnemyCount = 0;
         timeSinceLastSpawn = 0;
         spawnWaitTime = 0;
         timeSinceWaveStarted = 0;
 
         spawnWaitTime = Random.Range(MinSpawnTime,MaxSpawnTime);
+
+        IsInwave = true;
+    }
+
+    void NextWave()
+    {
+        CurrentWaveNumber++;
+        GameManager.Instance.StartNextWaveUI(CurrentWaveNumber);
     }
 
     void SpawnEnemy()
@@ -68,5 +119,17 @@ public class SpawnManager : MonoBehaviour {
         newEnemy.transform.parent = EnemyParent;
         newEnemy.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
         
+    }
+
+    public void PlayerDied ()
+    {
+        IsInwave = false;
+        CurrentWaveNumber = 0;
+
+        foreach(Transform T in EnemyParent)
+        {
+            T.GetComponent<HoverTurretEnemy>().DoKilled(T);
+
+        }
     }
 }
