@@ -101,6 +101,9 @@ public class HoverTurretEnemy : MonoBehaviour {
 
     IEnumerator FiringBehavior()
     {
+        // Play Sound Fire Laser
+        Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", gameObject);
+
         Transform FiringBarrel = FiringPoints[currentFireBarrel];
         GameObject newLaser = Instantiate(EnemyLaserPrefab, FiringBarrel.position,FiringPoints[currentFireBarrel].rotation) as GameObject;
         newLaser.GetComponent<LaserScript>().LaserSpeed = -100;
@@ -133,7 +136,7 @@ public class HoverTurretEnemy : MonoBehaviour {
         ParticleManager._instance.SpawnShildPart(c.transform.position, PlayerTrans.gameObject);
 
         //Play Sound
-        //Fabric.EventManager.Instance.PostEvent("SFX/Enemy/Damage", gameObject);
+        Fabric.EventManager.Instance.PostEvent("SFX/Enemy/Damage", gameObject);
 
         //Move Unit
         float ForceAmount = 5;
@@ -155,7 +158,8 @@ public class HoverTurretEnemy : MonoBehaviour {
     public void DoKilled (Transform c)
     {
         //Playt explosion SFX
-
+        Fabric.EventManager.Instance.PostEvent("SFX/Enemy/Explode", gameObject);
+        
         //Play explosion particle effect
         ParticleManager._instance.SpawnExplosionParticle(c.position, PlayerTrans.gameObject);
 
