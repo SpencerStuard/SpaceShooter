@@ -62,7 +62,8 @@ public class GunDirection : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Fabric.EventManager.Instance.PostEvent("SFX/Gun/Roller", gameObject);
+        //Fabric.EventManager.Instance.PostEvent("SFX/Gun/Roller", gameObject);
+        FMOD_AudioManager.Instance.SFX_Gun_Roller.Play();
 		if (MouseKeyboardControls) {
 			SetUpMouseKeyBoardCamera ();
 		}
@@ -137,9 +138,9 @@ public class GunDirection : MonoBehaviour
 			SteamVR_Controller.Device deviceR = SteamVR_Controller.Input ((int)trackedObjR.index);
 
 			// Get velocity of chair for movement SFX
-			Debug.Log ("Chair spin velocity is: " + (deviceR.velocity.magnitude * deviceL.velocity.magnitude));
-			Fabric.EventManager.Instance.SetParameter ("SFX/Gun/Roller", "Velocity", (deviceR.velocity.magnitude * deviceL.velocity.magnitude), gameObject);
-
+			//Debug.Log ("Chair spin velocity is: " + (deviceR.velocity.magnitude * deviceL.velocity.magnitude));
+			//Fabric.EventManager.Instance.SetParameter ("SFX/Gun/Roller", "Velocity", (deviceR.velocity.magnitude * deviceL.velocity.magnitude), gameObject);
+            FMOD_AudioManager.Instance.SFX_Gun_Roller.SetParameter("Velocity", (deviceR.velocity.magnitude * deviceL.velocity.magnitude));
 		}
 		FireGuns ();
 
@@ -221,7 +222,8 @@ public class GunDirection : MonoBehaviour
     public IEnumerator FireLeftCannon()
     {
 		FireLaser(LCannonPoint);
-        Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", leftCannonObj);
+        //Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", leftCannonObj);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX_Gun_Laser", leftCannonObj.transform.position);
 		if (!MouseKeyboardControls) {
 			SteamVR_Controller.Device deviceL = SteamVR_Controller.Input ((int)trackedObjL.index);
 			deviceL.TriggerHapticPulse (3000);
@@ -238,7 +240,8 @@ public class GunDirection : MonoBehaviour
     public IEnumerator FireRightCannon()
     {
 		FireLaser(RCannonPoint);
-        Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", rightCannonObj);
+        //Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", rightCannonObj);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX_Gun_Laser", rightCannonObj.transform.position);
 		if (!MouseKeyboardControls) {
 			SteamVR_Controller.Device deviceR = SteamVR_Controller.Input ((int)trackedObjR.index);
 			deviceR.TriggerHapticPulse (3000);

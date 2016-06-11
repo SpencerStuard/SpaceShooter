@@ -61,7 +61,8 @@ public class GameManager : MonoBehaviour {
         ShipHealth.Instance.RestartGame();
         WaveNumber = 1;
         StartCoroutine("StartWaveUI");
-        Fabric.EventManager.Instance.PostEvent("MUS/Timeline", GameManager.Instance.gameObject);
+        //Fabric.EventManager.Instance.PostEvent("MUS/Timeline", GameManager.Instance.gameObject);
+        FMOD_AudioManager.Instance.MUS_Battle.Play();
 	}
 
     IEnumerator StartWaveUI()

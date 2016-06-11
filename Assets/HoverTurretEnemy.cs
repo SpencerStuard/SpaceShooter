@@ -102,7 +102,8 @@ public class HoverTurretEnemy : MonoBehaviour {
     IEnumerator FiringBehavior()
     {
         // Play Sound Fire Laser
-        Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", gameObject);
+        //Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", gameObject);
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX_Gun_Laser", gameObject);
 
         Transform FiringBarrel = FiringPoints[currentFireBarrel];
         GameObject newLaser = Instantiate(EnemyLaserPrefab, FiringBarrel.position,FiringPoints[currentFireBarrel].rotation) as GameObject;
@@ -158,7 +159,8 @@ public class HoverTurretEnemy : MonoBehaviour {
     public void DoKilled (Transform c)
     {
         //Playt explosion SFX
-        Fabric.EventManager.Instance.PostEvent("SFX/Enemy/Explode", gameObject);
+        //Fabric.EventManager.Instance.PostEvent("SFX/Enemy/Explode", gameObject);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX_Explosion", gameObject.transform.position);
         
         //Play explosion particle effect
         ParticleManager._instance.SpawnExplosionParticle(c.position, PlayerTrans.gameObject);
