@@ -19,11 +19,15 @@ public class FMOD_AudioManager : MonoBehaviour {
         }
     }
 
-    [Header("Events")]
+    [Header("Music")]
     public FMODUnity.StudioEventEmitter MUS_Battle;
+    [Header("Sound Effects")]
     public FMODUnity.StudioEventEmitter SFX_Explosion;
     public FMODUnity.StudioEventEmitter SFX_Gun_Laser;
     public FMODUnity.StudioEventEmitter SFX_Gun_Roller;
+    [Header("Ambience")]
+    public FMODUnity.StudioEventEmitter AMB_Ship;
+
 
     void Awake ()
     {
