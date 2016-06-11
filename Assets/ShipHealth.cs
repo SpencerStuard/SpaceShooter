@@ -61,25 +61,27 @@ public class ShipHealth : MonoBehaviour {
 
     void OnTriggerEnter(Collider c)
     {
-        if(c.transform.tag == "EnemyLaser")
+        if (!GameManager.Instance.InfitineHealth)
         {
-            if(c.GetComponent<LaserScript>())
+            if (c.transform.tag == "EnemyLaser")
             {
-                Debug.Log("TakingDamage");
-                MyHealth--;
-                // Play Sound take damage
-                Fabric.EventManager.Instance.PostEvent("SFX/Player/Damage", gameObject);
-
-                //Do Kill Cheak
-                if (MyHealth <= 0)
+                if (c.GetComponent<LaserScript>())
                 {
-                    GameManager.Instance.PlayerDied();
+                    Debug.Log("TakingDamage");
+                    MyHealth--;
+                    // Play Sound take damage
+                    Fabric.EventManager.Instance.PostEvent("SFX/Player/Damage", gameObject);
+
+                    //Do Kill Cheak
+                    if (MyHealth <= 0)
+                    {
+                        GameManager.Instance.PlayerDied();
+                    }
+
+
                 }
-                
 
             }
-
         }
-
     }
 }

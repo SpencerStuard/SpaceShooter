@@ -15,6 +15,11 @@ public class SpawnManager : MonoBehaviour {
     public float MaxSpawnTime;
     public float MaxSpawnRange;
     public float MinSpawnRange = 4f;
+
+    public int musicLayer1TopThreshold;
+    public int musicLayer2TopThreshold;
+    public int musicLayer3TopThreshold;
+
     //public int NumberOfEnemiesPerWave;
     int currentWaveEnemyCount;
     int CurrentWaveNumber;
@@ -76,6 +81,36 @@ public class SpawnManager : MonoBehaviour {
             }
         }
 
+        if (EnemyParent.childCount == 0)
+        {
+            SetMusicParameters(0,0,0,0);
+        }
+        else if (EnemyParent.childCount > 0 && EnemyParent.childCount <= musicLayer1TopThreshold)
+        {
+            SetMusicParameters(1, 0, 0, 0);
+        }
+        else if (EnemyParent.childCount > musicLayer1TopThreshold && EnemyParent.childCount <= musicLayer2TopThreshold)
+        {
+            SetMusicParameters(1, 1, 0, 0);
+        }
+        else if (EnemyParent.childCount > musicLayer2TopThreshold && EnemyParent.childCount <= musicLayer3TopThreshold)
+        {
+            SetMusicParameters(1, 1, 1, 0);
+        }
+        else
+        {
+            SetMusicParameters(1, 1, 1, 1);
+        }
+
+        
+    }
+
+    void SetMusicParameters(float percussionPerameter, float stringsPerameter, float brassPerameter, float woodwindsPerameter)
+    {
+        Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "PercussionToggle", percussionPerameter, GameManager.Instance.gameObject);
+        Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "StringsToggle", stringsPerameter, GameManager.Instance.gameObject);
+        Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "BrassToggle", brassPerameter, GameManager.Instance.gameObject);
+        Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "WoodwindsToggle", woodwindsPerameter, GameManager.Instance.gameObject);
     }
 
     public void SetUpWave (int WaveNumber)

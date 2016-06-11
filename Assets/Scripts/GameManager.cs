@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour {
 	//UI INFO
 	public GameObject UIParent;
 
+    public bool InfitineHealth = false;
+
 	public static GameManager Instance
 	{
 		get
@@ -45,12 +47,13 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+        
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update () 
+    {
+
 	}
 
 	public void StartGame ()
@@ -58,6 +61,7 @@ public class GameManager : MonoBehaviour {
         ShipHealth.Instance.RestartGame();
         WaveNumber = 1;
         StartCoroutine("StartWaveUI");
+        Fabric.EventManager.Instance.PostEvent("MUS/Timeline", GameManager.Instance.gameObject);
 	}
 
     IEnumerator StartWaveUI()
