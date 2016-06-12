@@ -70,7 +70,7 @@ public class ShipHealth : MonoBehaviour {
                     Debug.Log("TakingDamage");
                     MyHealth--;
                     // Play Sound take damage
-                    Fabric.EventManager.Instance.PostEvent("SFX/Player/Damage", gameObject);
+                    //Fabric.EventManager.Instance.PostEvent("SFX/Player/Damage", gameObject);
 
                     //Do Kill Cheak
                     if (MyHealth <= 0)

@@ -137,7 +137,7 @@ public class HoverTurretEnemy : MonoBehaviour {
         ParticleManager._instance.SpawnShildPart(c.transform.position, PlayerTrans.gameObject);
 
         //Play Sound
-        Fabric.EventManager.Instance.PostEvent("SFX/Enemy/Damage", gameObject);
+        //Fabric.EventManager.Instance.PostEvent("SFX/Enemy/Damage", gameObject);
 
         //Move Unit
         float ForceAmount = 5;
