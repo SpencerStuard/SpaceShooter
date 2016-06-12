@@ -11,7 +11,7 @@ public class GunDirection : MonoBehaviour
     public float LaserLife;
 	public float FireRate;
 
-    public AnimationClip LeftAnim;
+    //public AnimationClip LeftAnim;
     public AnimationCurve VertMapping;
     public AnimationCurve HorzMapping;
 
@@ -29,9 +29,9 @@ public class GunDirection : MonoBehaviour
     private bool LeftFireFlag;
     private bool RightFireFlag;
 
-    public Rigidbody GunBase;
+    //public Rigidbody GunBase;
     public GameObject GunSwivle;
-    public GameObject GunRoot;
+    //public GameObject GunRoot;
 
     public GameObject leftCannonObj;
     public GameObject rightCannonObj;
@@ -75,7 +75,7 @@ public class GunDirection : MonoBehaviour
 
             ///ROTATE GUN FOR MOUSE AND KEYBOARD CONTROLS
 			MouseDelta = LastMousePosition - Input.mousePosition;
-			GunRoot.transform.eulerAngles = new Vector3 (GunRoot.transform.eulerAngles.x, GunRoot.transform.eulerAngles.y - MouseDelta.x, GunRoot.transform.eulerAngles.z);
+			//GunRoot.transform.eulerAngles = new Vector3 (GunRoot.transform.eulerAngles.x, GunRoot.transform.eulerAngles.y - MouseDelta.x, GunRoot.transform.eulerAngles.z);
 			float NewXRotation = GunSwivle.transform.eulerAngles.x + MouseDelta.y;
 			GunSwivle.transform.eulerAngles = new Vector3 (NewXRotation, GunSwivle.transform.eulerAngles.y, GunSwivle.transform.eulerAngles.z );
 			//CameraObject.transform.rotation = GunRoot.transform.rotation;
@@ -103,9 +103,9 @@ public class GunDirection : MonoBehaviour
 			averageY -= 1;
 
             ///ROTATE GUN AND BASE
-            GunRoot.transform.rotation = Quaternion.Slerp(GunRoot.transform.rotation, rotation, Time.deltaTime * RotationDamping);
+            //GunRoot.transform.rotation = Quaternion.Slerp(GunRoot.transform.rotation, rotation, Time.deltaTime * RotationDamping);
             GunSwivle.transform.eulerAngles = new Vector3 (VertMapping.Evaluate (averageY), MiddleCube.transform.eulerAngles.y - 90f, GunSwivle.transform.localRotation.z);
-
+            GunSwivle.transform.position = MiddleCube.transform.position;
             // Get velocity of chair for movement SFX
             SteamVR_Controller.Device deviceL = SteamVR_Controller.Input((int)trackedObjL.index);
             SteamVR_Controller.Device deviceR = SteamVR_Controller.Input((int)trackedObjR.index);
@@ -153,21 +153,21 @@ public class GunDirection : MonoBehaviour
         HeadSet.transform.position += Vector3.up * 1.2f;
         CameraObject.GetComponent<Camera>().fieldOfView = 100f;
 		CameraObject.transform.GetComponent<SteamVR_TrackedObject>().enabled = false;
-        HeadSet.transform.parent = GunRoot.transform;
+        //HeadSet.transform.parent = GunRoot.transform;
 	}
 
     public IEnumerator FireLeftCannon()
     {
-		FireLaser(LCannonPoint);
+		FireLaser(RCannonPoint);
         //Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", leftCannonObj);
         FMODUnity.RuntimeManager.PlayOneShot("event:/SFX_Gun_Laser", leftCannonObj.transform.position);
 		if (!MouseKeyboardControls) {
 			SteamVR_Controller.Device deviceL = SteamVR_Controller.Input ((int)trackedObjL.index);
 			deviceL.TriggerHapticPulse (3000);
 		}
-        transform.GetComponent<Animator>().SetBool("New Bool",true);
+        transform.GetComponent<Animator>().SetBool("New Bool 0",true);
         yield return null;
-        transform.GetComponent<Animator>().SetBool("New Bool", false);
+        transform.GetComponent<Animator>().SetBool("New Bool 0", false);
 
         //FIRELASER
 		yield return new WaitForSeconds(FireRate);
@@ -176,16 +176,16 @@ public class GunDirection : MonoBehaviour
 
     public IEnumerator FireRightCannon()
     {
-		FireLaser(RCannonPoint);
+		FireLaser(LCannonPoint);
         //Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", rightCannonObj);
         FMODUnity.RuntimeManager.PlayOneShot("event:/SFX_Gun_Laser", rightCannonObj.transform.position);
 		if (!MouseKeyboardControls) {
 			SteamVR_Controller.Device deviceR = SteamVR_Controller.Input ((int)trackedObjR.index);
 			deviceR.TriggerHapticPulse (3000);
 		}
-        transform.GetComponent<Animator>().SetBool("New Bool 0", true);
+        transform.GetComponent<Animator>().SetBool("New Bool", true);
 		yield return null;
-        transform.GetComponent<Animator>().SetBool("New Bool 0", false);
+        transform.GetComponent<Animator>().SetBool("New Bool", false);
 
         //FIRELASER
 		yield return new WaitForSeconds(FireRate);
