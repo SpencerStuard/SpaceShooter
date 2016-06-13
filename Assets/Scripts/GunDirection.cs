@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class GunDirection : MonoBehaviour
 {
 	public bool MouseKeyboardControls;
+    public float MouseGunHeight;
+    public Vector3 MouseCameraOffset;
 
     //LASER STATS
     public float LaserSpeed;
@@ -17,7 +19,7 @@ public class GunDirection : MonoBehaviour
 
     public GameObject HeadSet;
     public GameObject CameraObject;
-    public GameObject MiddleCube;
+    
 
     public float RotationDamping = 1f;
 
@@ -36,9 +38,6 @@ public class GunDirection : MonoBehaviour
     public GameObject leftCannonObj;
     public GameObject rightCannonObj;
 
-    public GameObject leftGrabPoint;
-    public GameObject rightGrabPoint;
-
     //public SteamVR_TrackedObject trackedObjR;
     public SteamVR_TrackedObject trackedObjL;
     public SteamVR_TrackedObject trackedObjR;
@@ -51,11 +50,16 @@ public class GunDirection : MonoBehaviour
 	Vector3 LastMousePosition;
 	Vector3 MouseDelta;
 
+    GameObject MiddleCube;
+
 
     void Awake()
     {
-        trackedObjR = leftHand.GetComponent<SteamVR_TrackedObject>();
-        trackedObjL = rightHand.GetComponent<SteamVR_TrackedObject>();
+        if (!MouseKeyboardControls)
+        {
+            trackedObjR = leftHand.GetComponent<SteamVR_TrackedObject>();
+            trackedObjL = rightHand.GetComponent<SteamVR_TrackedObject>();
+        }
     }
 
     // Use this for initialization
@@ -75,23 +79,14 @@ public class GunDirection : MonoBehaviour
 
             ///ROTATE GUN FOR MOUSE AND KEYBOARD CONTROLS
 			MouseDelta = LastMousePosition - Input.mousePosition;
-			//GunRoot.transform.eulerAngles = new Vector3 (GunRoot.transform.eulerAngles.x, GunRoot.transform.eulerAngles.y - MouseDelta.x, GunRoot.transform.eulerAngles.z);
 			float NewXRotation = GunSwivle.transform.eulerAngles.x + MouseDelta.y;
-			GunSwivle.transform.eulerAngles = new Vector3 (NewXRotation, GunSwivle.transform.eulerAngles.y, GunSwivle.transform.eulerAngles.z );
-			//CameraObject.transform.rotation = GunRoot.transform.rotation;
+			GunSwivle.transform.eulerAngles = new Vector3 (NewXRotation,GunSwivle.transform.eulerAngles.y - MouseDelta.x , GunSwivle.transform.eulerAngles.z);
+            HeadSet.transform.eulerAngles = new Vector3(HeadSet.transform.eulerAngles.x, GunSwivle.transform.eulerAngles.y, HeadSet.transform.eulerAngles.z);
 			LastMousePosition = Input.mousePosition;
-
-
 		} else {
-
-		
-			//Debug.DrawLine(leftHand.position, rightHand.position);
 			midpoint = leftHand.position + (rightHand.position - leftHand.position) / 2;
 			MiddleCube.transform.position = midpoint;
 			MiddleCube.transform.LookAt (rightHand.transform, Vector3.right);
-			//float angle = Vector3.Angle (rightHand.transform.position, leftHand.transform.position);
-            //Debug.DrawRay(midpoint, Vector3.Cross(GunSwivle.right.normalized, GunSwivle.up.normalized));
-
 
             //ROTATE BASE LEFT AND RIGHT
             Vector3 lookPos = midpoint - transform.position;
@@ -150,10 +145,17 @@ public class GunDirection : MonoBehaviour
 
 	void SetUpMouseKeyBoardCamera ()
 	{
-        HeadSet.transform.position += Vector3.up * 1.2f;
+        //SET GUN HEIGHT POSITION
+        GunSwivle.transform.position = Vector3.zero + (Vector3.up * MouseGunHeight);
+
+        ///TAKE OFF THE TRACKING SCRIPT AND PARENT IT WITH OFFSET TO GUN
+        if(HeadSet.GetComponent<SteamVR_TrackedObject>())
+        {
+            HeadSet.GetComponent<SteamVR_TrackedObject>().enabled = false;
+        }
+        HeadSet.transform.position = GunSwivle.transform.position + MouseCameraOffset; //TODO SET TO AN OFFSET PUBLIC VAR
+        //HeadSet.transform.parent = GunSwivle.transform;
         CameraObject.GetComponent<Camera>().fieldOfView = 100f;
-		CameraObject.transform.GetComponent<SteamVR_TrackedObject>().enabled = false;
-        //HeadSet.transform.parent = GunRoot.transform;
 	}
 
     public IEnumerator FireLeftCannon()
