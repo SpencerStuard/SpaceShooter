@@ -50,7 +50,7 @@ public class GunDirection : MonoBehaviour
 	Vector3 LastMousePosition;
 	Vector3 MouseDelta;
 
-    GameObject MiddleCube;
+    public GameObject MiddleCube;
 
 
     void Awake()
