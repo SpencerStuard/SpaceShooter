@@ -70,7 +70,7 @@ public class SpawnManager : MonoBehaviour {
 
             if (timeSinceLastSpawn > spawnWaitTime && currentWaveEnemyCount < EnemiesPerWave[CurrentWaveNumber])
             {
-                SpawnEnemy();
+                StartCoroutine(SpawnEnemy());
                 currentWaveEnemyCount++;
             }
 
@@ -138,7 +138,7 @@ public class SpawnManager : MonoBehaviour {
         GameManager.Instance.StartNextWaveUI(CurrentWaveNumber);
     }
 
-    void SpawnEnemy()
+    IEnumerator SpawnEnemy()
     {
         timeSinceLastSpawn = 0;
         spawnWaitTime = 0;
@@ -154,6 +154,12 @@ public class SpawnManager : MonoBehaviour {
         Quaternion randomRotation = Random.rotation;
         randomRotation.x = 0;
         randomRotation.z = 0;
+
+        //SPAWN WARP IN EFFECT
+
+        ParticleManager._instance.SpawnWarpInEffect(SpawnLocation, PlayerTrans);
+
+        yield return new WaitForSeconds(.52f);
 
         //newEnemy
         GameObject newEnemy = Instantiate(BasicTurret, SpawnLocation,randomRotation) as GameObject;

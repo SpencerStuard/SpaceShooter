@@ -16,6 +16,8 @@ public class ParticleManager : MonoBehaviour {
 
     public GameObject ShildParticle;
     public GameObject ExplosionParticle;
+    public GameObject WarpInEffect;
+    public GameObject WarpLightEffect;
 
 
     void Awake ()
@@ -62,6 +64,28 @@ public class ParticleManager : MonoBehaviour {
         //Put on a kill script
         newPart.AddComponent<KillMeAfterSeconds>();
         newPart.GetComponent<KillMeAfterSeconds>().SetUpKillMe(2f);
+
+    }
+
+    public void SpawnWarpInEffect(Vector3 Location, Transform PlayerTrans)
+    {
+
+        //Spawn and look at
+        GameObject newPart = Instantiate(WarpInEffect, Location, Quaternion.identity) as GameObject;
+        newPart.transform.LookAt(2 * newPart.transform.position - PlayerTrans.position);
+        newPart.transform.eulerAngles = new Vector3(0, newPart.transform.eulerAngles.y, newPart.transform.eulerAngles.z);
+
+        //SPAWN WAPR LIGHT
+        GameObject newWarpLight = Instantiate(WarpLightEffect, PlayerTrans.position, Quaternion.identity) as GameObject;
+        newWarpLight.transform.LookAt(newPart.transform.position);
+        newWarpLight.transform.localPosition = newWarpLight.transform.TransformDirection( new Vector3(0, 0, 2f));
+        newWarpLight.transform.position = new Vector3(newWarpLight.transform.position.x, 1f, newWarpLight.transform.position.z); 
+        newWarpLight.AddComponent<KillMeAfterSeconds>();
+        newWarpLight.GetComponent<KillMeAfterSeconds>().SetUpKillMe(1.8f);
+
+        //Put on a kill script
+        newPart.AddComponent<KillMeAfterSeconds>();
+        newPart.GetComponent<KillMeAfterSeconds>().SetUpKillMe(1.8f);
 
     }
 }

@@ -78,11 +78,15 @@ public class GunDirection : MonoBehaviour
 		if (MouseKeyboardControls) {
 
             ///ROTATE GUN FOR MOUSE AND KEYBOARD CONTROLS
-			MouseDelta = LastMousePosition - Input.mousePosition;
+            if(LastMousePosition != Vector3.zero)
+            {
+                MouseDelta = LastMousePosition - Input.mousePosition;
+            }
 			float NewXRotation = GunSwivle.transform.eulerAngles.x + MouseDelta.y;
 			GunSwivle.transform.eulerAngles = new Vector3 (NewXRotation,GunSwivle.transform.eulerAngles.y - MouseDelta.x , GunSwivle.transform.eulerAngles.z);
             HeadSet.transform.eulerAngles = new Vector3(HeadSet.transform.eulerAngles.x, GunSwivle.transform.eulerAngles.y, HeadSet.transform.eulerAngles.z);
-			LastMousePosition = Input.mousePosition;
+            HeadSet.transform.localPosition = HeadSet.transform.TransformDirection(MouseCameraOffset); ;
+            LastMousePosition = Input.mousePosition;
 		} else {
 			midpoint = leftHand.position + (rightHand.position - leftHand.position) / 2;
 			MiddleCube.transform.position = midpoint;
@@ -155,7 +159,7 @@ public class GunDirection : MonoBehaviour
         }
         HeadSet.transform.position = GunSwivle.transform.position + MouseCameraOffset; //TODO SET TO AN OFFSET PUBLIC VAR
         //HeadSet.transform.parent = GunSwivle.transform;
-        CameraObject.GetComponent<Camera>().fieldOfView = 100f;
+        CameraObject.GetComponent<Camera>().fieldOfView = 130f;
 	}
 
     public IEnumerator FireLeftCannon()
