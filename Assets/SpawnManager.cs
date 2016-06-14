@@ -165,12 +165,16 @@ public class SpawnManager : MonoBehaviour {
 
         ParticleManager._instance.SpawnWarpInEffect(SpawnLocation, PlayerTrans);
 
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX_Enemy_Warp", SpawnLocation);
+
         yield return new WaitForSeconds(.52f);
 
         //newEnemy
         GameObject newEnemy = Instantiate(BasicTurret, SpawnLocation,randomRotation) as GameObject;
         newEnemy.transform.parent = EnemyParent;
         newEnemy.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
+
+        
         
     }
 

@@ -25,6 +25,7 @@ public class FMOD_AudioManager : MonoBehaviour {
     public FMODUnity.StudioEventEmitter SFX_Explosion;
     public FMODUnity.StudioEventEmitter SFX_Gun_Laser;
     public FMODUnity.StudioEventEmitter SFX_Gun_Roller;
+    public FMODUnity.StudioEventEmitter SFX_Ship_Rattle;
     [Header("Ambience")]
     public FMODUnity.StudioEventEmitter AMB_Ship;
 
