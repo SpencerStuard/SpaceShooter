@@ -83,8 +83,14 @@ public class SpawnManager : MonoBehaviour {
 
         if (EnemyParent.childCount == 0)
         {
-            SetMusicParameters(0,0,0,0);
+            //SetMusicParameters(0,0,0,0);
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("EnemyCount", 0);
         }
+        else 
+        {
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("EnemyCount", 1);
+        }
+        /*
         else if (EnemyParent.childCount > 0 && EnemyParent.childCount <= musicLayer1TopThreshold)
         {
             SetMusicParameters(1, 0, 0, 0);
@@ -100,7 +106,7 @@ public class SpawnManager : MonoBehaviour {
         else
         {
             SetMusicParameters(1, 1, 1, 1);
-        }
+        }*/
 
         
     }
