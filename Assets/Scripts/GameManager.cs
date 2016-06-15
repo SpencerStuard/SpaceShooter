@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour {
 
     public int WaveNumber;
 
+    /* Bryce Test Goes Here xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+
     //UI GameObjects
     public Text MainTextObject;
     public GameObject PlayButtonObject;

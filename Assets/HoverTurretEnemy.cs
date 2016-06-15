@@ -161,6 +161,10 @@ public class HoverTurretEnemy : MonoBehaviour {
         //Playt explosion SFX
         //Fabric.EventManager.Instance.PostEvent("SFX/Enemy/Explode", gameObject);
         FMODUnity.RuntimeManager.PlayOneShot("event:/SFX_Explosion", gameObject.transform.position);
+        FMOD_AudioManager.Instance.SFX_Ship_Rattle.Play();
+        FMOD_AudioManager.Instance.SFX_Ship_Rattle.SetParameter("EnemyDistance", (gameObject.transform.position - PlayerTrans.position).magnitude);
+        //Debug.Log("Enemy is this far away: " + (gameObject.transform.position - PlayerTrans.position).magnitude);
+        
         
         //Play explosion particle effect
         ParticleManager._instance.SpawnExplosionParticle(c.position, PlayerTrans.gameObject);
