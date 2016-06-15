@@ -1,5 +1,8 @@
 *.csproj
 *.sln
+*.suo
 Library/
 obj/
 Temp/
+fmod.log
+fmod_ediitor.log

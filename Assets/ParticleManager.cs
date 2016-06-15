@@ -18,6 +18,7 @@ public class ParticleManager : MonoBehaviour {
     public GameObject ExplosionParticle;
     public GameObject WarpInEffect;
     public GameObject WarpLightEffect;
+    public GameObject PlayerDamangeEffect;
 
 
     void Awake ()
@@ -87,5 +88,16 @@ public class ParticleManager : MonoBehaviour {
         newPart.AddComponent<KillMeAfterSeconds>();
         newPart.GetComponent<KillMeAfterSeconds>().SetUpKillMe(1.8f);
 
+    }
+
+    public void SpawnPlayerDamageEffect(Vector3 Location)
+    {
+        //Spawn and look at
+        GameObject newPart = Instantiate(PlayerDamangeEffect, Location, Quaternion.identity) as GameObject;
+        newPart.transform.LookAt(GameManager.Instance.PlayerTrans.position);
+
+        //Put on a kill script
+        newPart.AddComponent<KillMeAfterSeconds>();
+        newPart.GetComponent<KillMeAfterSeconds>().SetUpKillMe(1.2f);
     }
 }

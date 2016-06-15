@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour {
 
     public int WaveNumber;
 
-    /* Bryce Test Goes Here xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx*/
+    //PlayerTrans
+    public Transform PlayerTrans;
 
     //UI GameObjects
     public Text MainTextObject;
