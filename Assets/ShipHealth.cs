@@ -69,12 +69,12 @@ public class ShipHealth : MonoBehaviour {
                 {
                     Debug.Log("TakingDamage");
                     MyHealth--;
-                    //Play Sound take damage
-                    //Fabric.EventManager.Instance.PostEvent("SFX/Player/Damage", gameObject);
+                    
 
-                    ///DO EFFECT AND KILL LASER
+                    ///DO EFFECT AND KILL LASER AND PLAY DAMAGE SOUND
                     Destroy(c.gameObject);
                     ParticleManager._instance.SpawnPlayerDamageEffect(c.transform.position);
+                    //Fabric.EventManager.Instance.PostEvent("SFX/Player/Damage", gameObject);
 
                     //Do Kill Cheak
                     if (MyHealth <= 0)
