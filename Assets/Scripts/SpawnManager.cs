@@ -179,11 +179,41 @@ public class SpawnManager : MonoBehaviour {
 
     void SetUpNewEnemyStatsFromWave(GameObject newEnemyRef)
     {
-        ///SETUP FOR DIFFRENT ENEMY TYPES
-        newEnemyRef.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
-        newEnemyRef.GetComponent<HoverTurretEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
-        newEnemyRef.GetComponent<HoverTurretEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
-        newEnemyRef.GetComponent<HoverTurretEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyFireRate;
+        if (newEnemyRef.name == "HoverTurretPref(Clone)")
+        { 
+            newEnemyRef.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyFireRate;
+        }
+        if (newEnemyRef.name == "MissleTurretPref(Clone)")
+        {
+            newEnemyRef.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyFireRate;
+        }
+        if (newEnemyRef.name == "ScanTurretPref(Clone)")
+        {
+            newEnemyRef.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyFireRate;
+        }
+        if (newEnemyRef.name == "CargoPref(Clone)")
+        {
+            newEnemyRef.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyFireRate;
+        }
+        if (newEnemyRef.name == "FighterPref(Clone)")
+        {
+            newEnemyRef.GetComponent<FighterEnemy>().PlayerTrans = PlayerTrans;
+            newEnemyRef.GetComponent<FighterEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
+            newEnemyRef.GetComponent<FighterEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
+            newEnemyRef.GetComponent<FighterEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyFireRate;
+        }
     }
 
     GameObject PickEnemy()
@@ -252,7 +282,11 @@ public class SpawnManager : MonoBehaviour {
 
         foreach(Transform T in EnemyParent)
         {
-            T.GetComponent<HoverTurretEnemy>().DoKilled(T);
+            if (T.GetComponent<HoverTurretEnemy>())
+                T.GetComponent<HoverTurretEnemy>().DoKilled(T);
+
+            if (T.GetComponent<FighterEnemy>())
+                T.GetComponent<FighterEnemy>().DoKilled(T);
 
         }
     }

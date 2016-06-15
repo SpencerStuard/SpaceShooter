@@ -22,6 +22,9 @@ ModelImporter:
     100028: RightGunLasterPoint01
     100030: RightGunLasterPoint02
     100032: RightGunTopBarrel
+    100034: FrontLight
+    100036: LeftEngineTurbine
+    100038: RightEngineTurbine
     400000: AntenaLight
     400002: Atena
     400004: Base
@@ -39,6 +42,9 @@ ModelImporter:
     400028: RightGunLasterPoint01
     400030: RightGunLasterPoint02
     400032: RightGunTopBarrel
+    400034: FrontLight
+    400036: LeftEngineTurbine
+    400038: RightEngineTurbine
     2300000: AntenaLight
     2300002: Atena
     2300004: Base
@@ -51,6 +57,10 @@ ModelImporter:
     2300018: RightGun
     2300020: RightGunBottomBarrel
     2300022: RightGunTopBarrel
+    2300024: //RootNode
+    2300026: FrontLight
+    2300028: LeftEngineTurbine
+    2300030: RightEngineTurbine
     3300000: AntenaLight
     3300002: Atena
     3300004: Base
@@ -63,6 +73,10 @@ ModelImporter:
     3300018: RightGun
     3300020: RightGunBottomBarrel
     3300022: RightGunTopBarrel
+    3300024: //RootNode
+    3300026: FrontLight
+    3300028: LeftEngineTurbine
+    3300030: RightEngineTurbine
     4300000: Hat
     4300002: Atena
     4300004: AntenaLight
@@ -75,6 +89,10 @@ ModelImporter:
     4300018: RightGunBottomBarrel
     4300020: Head
     4300022: Lens
+    4300024: ShipBody
+    4300026: RightEngineTurbine
+    4300028: LeftEngineTurbine
+    4300030: FrontLight
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -100,7 +118,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.2
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

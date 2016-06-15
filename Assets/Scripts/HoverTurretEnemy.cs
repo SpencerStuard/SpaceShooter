@@ -10,7 +10,7 @@ public class HoverTurretEnemy : MonoBehaviour {
     public float FireRate;
     public float Accuracy;
 
-    public Transform EnemyParent;
+    //public Transform EnemyParent;
     public Transform PlayerTrans;
 
     public Transform GOHat;
