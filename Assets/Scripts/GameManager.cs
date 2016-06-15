@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
     public GameObject PlayButtonObject;
 
     //ENEMY AND WAVE INFO
+    public int DebugStartingWave;
     int CurrentWaveNumber = 0;
 	//public GameObject EnemySpawner;
 
@@ -59,7 +60,15 @@ public class GameManager : MonoBehaviour {
 	public void StartGame ()
 	{
         ShipHealth.Instance.RestartGame();
-        WaveNumber = 1;
+        if(DebugStartingWave != 0)
+        {
+            WaveNumber = DebugStartingWave;
+        }
+        else
+        {
+            WaveNumber = 0;
+        }
+        
         StartCoroutine("StartWaveUI");
         //Fabric.EventManager.Instance.PostEvent("MUS/Timeline", GameManager.Instance.gameObject);
         FMOD_AudioManager.Instance.MUS_Battle.Play();
@@ -68,11 +77,11 @@ public class GameManager : MonoBehaviour {
     IEnumerator StartWaveUI()
     {
         MainTextObject.gameObject.SetActive(true);
-        MainTextObject.text = "WAVE  " + WaveNumber.ToString() + " . . . 3";
+        MainTextObject.text = "WAVE  " + (WaveNumber + 1).ToString() + " . . . 3";
         yield return new WaitForSeconds(1.4f);
-        MainTextObject.text = "WAVE  " + WaveNumber.ToString() + " . . . 2";
+        MainTextObject.text = "WAVE  " + (WaveNumber + 1).ToString() + " . . . 2";
         yield return new WaitForSeconds(1.4f);
-        MainTextObject.text = "WAVE  " + WaveNumber.ToString() + " . . . 1";
+        MainTextObject.text = "WAVE  " + (WaveNumber + 1).ToString() + " . . . 1";
         yield return new WaitForSeconds(1.4f);
         MainTextObject.text = "GOOD LUCK!";
         yield return new WaitForSeconds(2f);

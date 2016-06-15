@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class HoverTurretEnemy : MonoBehaviour {
 
-    public float IdleTime;
+    public float IdleTime = 0;
     public float AimTime;
     public float AimSpeed;
     public float FireRate;

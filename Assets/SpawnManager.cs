@@ -10,6 +10,7 @@ public class SpawnManager : MonoBehaviour {
     public GameObject MissleTurret;
     public GameObject ScanTurret;
     public GameObject Fighter;
+    public GameObject CargoShip;
 
     public float MinSpawnTime;
     public float MaxSpawnTime;
@@ -29,6 +30,7 @@ public class SpawnManager : MonoBehaviour {
     bool IsInwave;
 
     public List<int> EnemiesPerWave = new List<int>();
+    public List<WaveParameters> WaveValues = new List<WaveParameters>();
 
 
     private static SpawnManager instance = null;
@@ -68,13 +70,13 @@ public class SpawnManager : MonoBehaviour {
             timeSinceWaveStarted += Time.deltaTime;
             timeSinceLastSpawn += Time.deltaTime;
 
-            if (timeSinceLastSpawn > spawnWaitTime && currentWaveEnemyCount < EnemiesPerWave[CurrentWaveNumber])
+            if (timeSinceLastSpawn > spawnWaitTime && currentWaveEnemyCount < WaveValues[CurrentWaveNumber].NumberOfEnemies)
             {
                 StartCoroutine(SpawnEnemy());
                 currentWaveEnemyCount++;
             }
 
-            if (currentWaveEnemyCount == EnemiesPerWave[CurrentWaveNumber] && EnemyParent.childCount == 0)
+            if (currentWaveEnemyCount == WaveValues[CurrentWaveNumber].NumberOfEnemies && EnemyParent.childCount == 0)
             {
                 IsInwave = false;
                 NextWave();
@@ -133,7 +135,8 @@ public class SpawnManager : MonoBehaviour {
         spawnWaitTime = 0;
         timeSinceWaveStarted = 0;
 
-        spawnWaitTime = Random.Range(MinSpawnTime,MaxSpawnTime);
+        //GET A FIRST SPAWN TIME
+        spawnWaitTime = Random.Range(WaveValues[CurrentWaveNumber].MinSpawnTime, WaveValues[CurrentWaveNumber].MaxSpawnTime);
 
         IsInwave = true;
     }
@@ -148,7 +151,7 @@ public class SpawnManager : MonoBehaviour {
     {
         timeSinceLastSpawn = 0;
         spawnWaitTime = 0;
-        spawnWaitTime = Random.Range(MinSpawnTime, MaxSpawnTime);
+        spawnWaitTime = Random.Range(WaveValues[CurrentWaveNumber].MinSpawnTime, WaveValues[CurrentWaveNumber].MaxSpawnTime);
 
         //Get spawn location and make sure it is not too close top palyer
         Vector3 SpawnLocation = new Vector3(Random.Range(-MaxSpawnRange, MaxSpawnRange), Random.Range(-5f, MaxSpawnRange/2), Random.Range(-MaxSpawnRange, MaxSpawnRange));
@@ -168,10 +171,78 @@ public class SpawnManager : MonoBehaviour {
         yield return new WaitForSeconds(.52f);
 
         //newEnemy
-        GameObject newEnemy = Instantiate(BasicTurret, SpawnLocation,randomRotation) as GameObject;
+        GameObject tempNewEnemy = PickEnemy();
+        GameObject newEnemy = Instantiate(tempNewEnemy, SpawnLocation,randomRotation) as GameObject;
         newEnemy.transform.parent = EnemyParent;
-        newEnemy.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
-        
+        SetUpNewEnemyStatsFromWave(newEnemy);        
+    }
+
+    void SetUpNewEnemyStatsFromWave(GameObject newEnemyRef)
+    {
+        ///SETUP FOR DIFFRENT ENEMY TYPES
+        newEnemyRef.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
+        newEnemyRef.GetComponent<HoverTurretEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
+        newEnemyRef.GetComponent<HoverTurretEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
+        newEnemyRef.GetComponent<HoverTurretEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyFireRate;
+    }
+
+    GameObject PickEnemy()
+    {
+        GameObject EnemyGo = null;
+        float EW01 = WaveValues[CurrentWaveNumber].Enemy01Weight;
+        float EW02 = WaveValues[CurrentWaveNumber].Enemy02Weight;
+        float EW03 = WaveValues[CurrentWaveNumber].Enemy03Weight;
+        float EW04 = WaveValues[CurrentWaveNumber].Enemy04Weight;
+        float EW05 = WaveValues[CurrentWaveNumber].Enemy05Weight;
+
+        float TotalEnemyPercentage = EW01 + EW02 + EW03 + EW04 + EW05;
+
+        float EnemyPickValue = Random.Range(0f, TotalEnemyPercentage);
+        //Debug.Log("ENEMYPICKVALUE = " + EnemyPickValue);
+
+        //PICK ENEMY
+        if(EW01 > 0)
+        {
+            if (EnemyPickValue < EW01)
+            {
+                EnemyGo = BasicTurret;
+            }
+        }
+        if (EW02 > 0)
+        {
+            if (EnemyPickValue < EW01 + EW02 && EnemyGo == null)
+            {
+                EnemyGo = ScanTurret;
+            }
+        }
+        if (EW03 > 0)
+        {
+            if (EnemyPickValue < EW01 + EW02 +EW03 && EnemyGo == null)
+            {
+                EnemyGo = MissleTurret;
+            }
+        }
+        if (EW04 > 0)
+        {
+            if (EnemyPickValue < EW01 + EW02 + EW03 + EW04 && EnemyGo == null)
+            {
+                EnemyGo = Fighter;
+            }
+        }
+        if (EW05 > 0)
+        {
+            if (EnemyPickValue < EW01 + EW02 + EW03 + EW04 + EW05 && EnemyGo == null)
+            {
+                EnemyGo = CargoShip;
+            }
+        }
+        if(EnemyGo == null)
+        {
+            EnemyGo = null;
+            Debug.LogError("HAD PROBLEM PICKING ENEMY");
+        }
+        //Debug.Log("SELECTED ENEMY = " + EnemyGo.name);
+        return EnemyGo;
     }
 
     public void PlayerDied ()
