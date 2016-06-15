@@ -1,6 +1,6 @@
 *.csproj
 *.sln
-*.suo
+.suo
 Library/
 obj/
 Temp/
