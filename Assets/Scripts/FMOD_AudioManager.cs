@@ -23,6 +23,7 @@ public class FMOD_AudioManager : MonoBehaviour {
 
     [Header("Music")]
     public FMODUnity.StudioEventEmitter MUS_Battle;
+    public FMODUnity.StudioEventEmitter MUS_WinStinger;
     [Header("Sound Effects")]
     public FMODUnity.StudioEventEmitter SFX_Explosion;
     public FMODUnity.StudioEventEmitter SFX_Gun_Laser;
