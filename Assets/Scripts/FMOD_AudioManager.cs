@@ -19,6 +19,8 @@ public class FMOD_AudioManager : MonoBehaviour {
         }
     }
 
+    public bool muteAudio;
+
     [Header("Music")]
     public FMODUnity.StudioEventEmitter MUS_Battle;
     [Header("Sound Effects")]
@@ -38,7 +40,14 @@ public class FMOD_AudioManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-	
+	    if (muteAudio)
+        {
+            FMOD.Studio.Bus masterBus;
+
+            FMODUnity.RuntimeManager.StudioSystem.getBus("bus:/", out masterBus);
+
+            masterBus.setMute(true);
+        }
 	}
 	
 	// Update is called once per frame
