@@ -92,6 +92,7 @@ public class SpawnManager : MonoBehaviour {
         {
             FMOD_AudioManager.Instance.MUS_Battle.SetParameter("EnemyCount", 1);
         }
+
         /*
         else if (EnemyParent.childCount > 0 && EnemyParent.childCount <= musicLayer1TopThreshold)
         {
@@ -115,15 +116,12 @@ public class SpawnManager : MonoBehaviour {
 
     void SetMusicParameters(float percussionPerameter, float stringsPerameter, float brassPerameter, float woodwindsPerameter)
     {
-        /*Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "PercussionToggle", percussionPerameter, GameManager.Instance.gameObject);
-        Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "StringsToggle", stringsPerameter, GameManager.Instance.gameObject);
-        Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "BrassToggle", brassPerameter, GameManager.Instance.gameObject);
-        Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "WoodwindsToggle", woodwindsPerameter, GameManager.Instance.gameObject);*/
-
+        /*
         FMOD_AudioManager.Instance.MUS_Battle.SetParameter("PercussionToggle", percussionPerameter);
         FMOD_AudioManager.Instance.MUS_Battle.SetParameter("StringsToggle", stringsPerameter);
         FMOD_AudioManager.Instance.MUS_Battle.SetParameter("BrassToggle", brassPerameter);
         FMOD_AudioManager.Instance.MUS_Battle.SetParameter("WoodwindsToggle", woodwindsPerameter);
+         * */
 
     }
 

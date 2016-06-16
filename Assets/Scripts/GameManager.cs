@@ -129,6 +129,9 @@ public class GameManager : MonoBehaviour {
 
         //SetUp End Game UI
         StartCoroutine("StartEndGameUI");
+
+        //Play Lose Music
+        FMOD_AudioManager.Instance.MUS_Battle.Stop();
     }
 
     IEnumerator StartEndGameUI ()
