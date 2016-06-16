@@ -167,6 +167,7 @@ public class SpawnManager : MonoBehaviour {
         //SPAWN WARP IN EFFECT
 
         ParticleManager._instance.SpawnWarpInEffect(SpawnLocation, PlayerTrans);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX_Enemy_Warp", SpawnLocation);
 
         yield return new WaitForSeconds(.52f);
 
