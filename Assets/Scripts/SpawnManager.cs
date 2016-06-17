@@ -92,38 +92,73 @@ public class SpawnManager : MonoBehaviour {
         {
             FMOD_AudioManager.Instance.MUS_Battle.SetParameter("EnemyCount", 1);
         }
-        /*
-        else if (EnemyParent.childCount > 0 && EnemyParent.childCount <= musicLayer1TopThreshold)
+
+        // Audio for Hover Turrets
+        if (EnemyParent.FindChild("HoverTurretPref(Clone)") !=null)
         {
-            SetMusicParameters(1, 0, 0, 0);
-        }
-        else if (EnemyParent.childCount > musicLayer1TopThreshold && EnemyParent.childCount <= musicLayer2TopThreshold)
-        {
-            SetMusicParameters(1, 1, 0, 0);
-        }
-        else if (EnemyParent.childCount > musicLayer2TopThreshold && EnemyParent.childCount <= musicLayer3TopThreshold)
-        {
-            SetMusicParameters(1, 1, 1, 0);
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("PercussionToggle", 1);
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("HighStringsToggle", 1);
         }
         else
         {
-            SetMusicParameters(1, 1, 1, 1);
-        }*/
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("PercussionToggle", 0);
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("HighStringsToggle", 0);
+        }
 
-        
+        // Audio for Fighters
+        if (EnemyParent.FindChild("FighterPref(Clone)") != null)
+        {
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("LowStringsToggle", 1);
+        }
+        else
+        {
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("LowStringsToggle", 0);
+        }
+
+        // Audio for Missile Turrets
+        if (EnemyParent.FindChild("MissleTurretPref(Clone)") != null)
+        {
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("HighBrassToggle", 1);
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("MidStringsToggle", 1);
+        }
+        else
+        {
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("HighBrassToggle", 0);
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("MidStringsToggle", 0);
+        }
+
+        // Audio for Scan Turrets
+        if (EnemyParent.FindChild("ScanTurretPref(Clone)") != null)
+        {
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("LowWindsToggle", 1);
+        }
+        else
+        {
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("LowWindsToggle", 0);
+        }
+
+        // Audio for Cargo Ships
+        if (EnemyParent.FindChild("CargoPref(Clone)") != null)
+        {
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("LowBrassToggle", 1);
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("HighWindsToggle", 1);
+        }
+        else
+        {
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("LowBrassToggle", 0);
+            FMOD_AudioManager.Instance.MUS_Battle.SetParameter("HighWindsToggle", 0);
+        }
+      
     }
 
     void SetMusicParameters(float percussionPerameter, float stringsPerameter, float brassPerameter, float woodwindsPerameter)
     {
-        /*Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "PercussionToggle", percussionPerameter, GameManager.Instance.gameObject);
-        Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "StringsToggle", stringsPerameter, GameManager.Instance.gameObject);
-        Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "BrassToggle", brassPerameter, GameManager.Instance.gameObject);
-        Fabric.EventManager.Instance.SetParameter("MUS/Timeline", "WoodwindsToggle", woodwindsPerameter, GameManager.Instance.gameObject);*/
-
+        /*
         FMOD_AudioManager.Instance.MUS_Battle.SetParameter("PercussionToggle", percussionPerameter);
         FMOD_AudioManager.Instance.MUS_Battle.SetParameter("StringsToggle", stringsPerameter);
         FMOD_AudioManager.Instance.MUS_Battle.SetParameter("BrassToggle", brassPerameter);
         FMOD_AudioManager.Instance.MUS_Battle.SetParameter("WoodwindsToggle", woodwindsPerameter);
+         * */
 
     }
 
@@ -167,6 +202,7 @@ public class SpawnManager : MonoBehaviour {
         //SPAWN WARP IN EFFECT
 
         ParticleManager._instance.SpawnWarpInEffect(SpawnLocation, PlayerTrans);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX_Enemy_Warp", SpawnLocation);
 
         yield return new WaitForSeconds(.52f);
 

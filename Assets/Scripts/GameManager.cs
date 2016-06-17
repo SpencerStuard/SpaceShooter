@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour {
     IEnumerator NextWaveUI(int WaveNumber)
     {
         //Play wave success SFX
+        FMOD_AudioManager.Instance.MUS_WinStinger.Play();
 
         CurrentWaveNumber = WaveNumber;
         MainTextObject.gameObject.SetActive(true);
@@ -128,6 +129,10 @@ public class GameManager : MonoBehaviour {
 
         //SetUp End Game UI
         StartCoroutine("StartEndGameUI");
+
+        //Play Lose Music
+        FMOD_AudioManager.Instance.MUS_Battle.Stop();
+        FMOD_AudioManager.Instance.MUS_LoseStinger.Play();
     }
 
     IEnumerator StartEndGameUI ()
