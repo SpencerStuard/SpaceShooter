@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class FighterEnemy : MonoBehaviour {
 
@@ -29,10 +30,16 @@ public class FighterEnemy : MonoBehaviour {
     float targetBankAmount;
     Vector3 GetAwayTarget;
     float lastEulerY;
+    int currentFireBarrel = 0;
+
+    //FIRING CANNONS
+    public GameObject EnemyLaserPrefab;
+    public List<Transform> FiringPoints = new List<Transform>();
+
 
     // Use this for initialization
     void Start () {
-        TargetSpeed = 5f;
+        TargetSpeed = 20f;
         CurrentSpeed = 5f;
         GetAwayTarget = GetFarPoint();
     }
@@ -45,23 +52,26 @@ public class FighterEnemy : MonoBehaviour {
         //JUST GOT HERE GET TO FAR AWAY POINT
         if (myState == FighterStates.Arrive && distanceToPlayer > StartTurnDistance)
         {
-            TargetSpeed = 5f;
+            TargetSpeed = 45f;
             myState = FighterStates.TargetPlayer;
         }
         if (myState == FighterStates.TargetPlayer && distanceToPlayer < StartStrikeDistance)
         {
-            TargetSpeed = 3f;
+            TargetSpeed = 14f;
             myState = FighterStates.StrikeRun;
+            StartCoroutine("FiringBehavior");
         }
         if (myState == FighterStates.StrikeRun && distanceToPlayer < EndStrikeDistance)
         {
             GetAwayTarget = GetFarPoint();
-            TargetSpeed = 7f;
+            TargetSpeed = 30f;
+            StopCoroutine("FiringBehavior");
             myState = FighterStates.GetAway;
+
         }
         if (myState == FighterStates.GetAway && distanceToPlayer > StartTurnDistance)
         {
-            TargetSpeed = 5f;
+            TargetSpeed = 15f;
             myState = FighterStates.TargetPlayer;
         }
 
@@ -94,13 +104,13 @@ public class FighterEnemy : MonoBehaviour {
         }
 
         ///BANK CODE NOT QUITE WORKING
-        /*
+        
         Debug.Log("BANK AMOUNT = " + ((transform.eulerAngles.y - lastEulerY) * BankAmount));
         targetBankAmount = (lastEulerY - transform.eulerAngles.y) * BankAmount;
         currentBankAmount = Mathf.Lerp(currentBankAmount, targetBankAmount, Time.deltaTime * BankSpeed);
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, currentBankAmount);
         lastEulerY = transform.eulerAngles.y;
-        */
+        
     }
 
     void FireWeapons ()
@@ -132,6 +142,28 @@ public class FighterEnemy : MonoBehaviour {
                 return Vector3.zero;
                 break;
         }
+    }
+
+    IEnumerator FiringBehavior()
+    {
+        // Play Sound Fire Laser
+        //Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", gameObject);
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX_Gun_Laser", gameObject);
+
+        Transform FiringBarrel = FiringPoints[currentFireBarrel];
+        GameObject newLaser = Instantiate(EnemyLaserPrefab, FiringBarrel.position, FiringPoints[currentFireBarrel].rotation) as GameObject;
+        newLaser.GetComponent<LaserScript>().LaserSpeed = -100;
+        if (currentFireBarrel < FiringPoints.Count - 1)
+        {
+            currentFireBarrel++;
+        }
+        else
+        {
+            currentFireBarrel = 0;
+        }
+        yield return new WaitForSeconds(FireRate);
+
+        StartCoroutine("FiringBehavior");
     }
 
     void OnTriggerEnter(Collider c)

@@ -1,69 +1,15 @@
 fileFormatVersion: 2
-guid: 3fdf43614f3f3294da7818ea1ff5e059
-timeCreated: 1465409978
+guid: cd26dab83f9de454eb8f79eb672d70f7
+timeCreated: 1466220843
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: AntenaLight
-    100002: Atena
-    100004: Base
-    100006: Hat
-    100008: Head
-    100010: Lens
-    100012: MissleHolder
-    100014: MisslePoint01
-    100016: MisslePoint010
-    100018: MisslePoint02
-    100020: MisslePoint03
-    100022: MisslePoint04
-    100024: MisslePoint05
-    100026: MisslePoint06
-    100028: MisslePoint07
-    100030: MisslePoint08
-    100032: MisslePoint09
-    100034: MisslePointHolder
-    100036: //RootNode
-    400000: AntenaLight
-    400002: Atena
-    400004: Base
-    400006: Hat
-    400008: Head
-    400010: Lens
-    400012: MissleHolder
-    400014: MisslePoint01
-    400016: MisslePoint010
-    400018: MisslePoint02
-    400020: MisslePoint03
-    400022: MisslePoint04
-    400024: MisslePoint05
-    400026: MisslePoint06
-    400028: MisslePoint07
-    400030: MisslePoint08
-    400032: MisslePoint09
-    400034: MisslePointHolder
-    400036: //RootNode
-    2300000: AntenaLight
-    2300002: Atena
-    2300004: Base
-    2300006: Hat
-    2300008: Head
-    2300010: Lens
-    2300012: MissleHolder
-    3300000: AntenaLight
-    3300002: Atena
-    3300004: Base
-    3300006: Hat
-    3300008: Head
-    3300010: Lens
-    3300012: MissleHolder
-    4300000: Hat
-    4300002: Atena
-    4300004: AntenaLight
-    4300006: Base
-    4300008: MissleHolder
-    4300010: Head
-    4300012: Lens
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Missile
     9500000: //RootNode
   materials:
     importMaterials: 1

@@ -27,6 +27,8 @@ public class WaveParameters {
     public float EnemyAccuracy;
     [Range(0f, 1f)]
     public float EnemyFireRate;
+    [Range(1f, 2f)]
+    public float EnemyMissileFireRate;
     [Range(0f, 1f)]
     public float EnemyAimTime;
 

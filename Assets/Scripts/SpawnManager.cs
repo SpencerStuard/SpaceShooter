@@ -222,12 +222,12 @@ public class SpawnManager : MonoBehaviour {
             newEnemyRef.GetComponent<HoverTurretEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
             newEnemyRef.GetComponent<HoverTurretEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyFireRate;
         }
-        if (newEnemyRef.name == "MissleTurretPref(Clone)")
+        if (newEnemyRef.name == "MissileEnemyPref(Clone)")
         {
-            newEnemyRef.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
-            newEnemyRef.GetComponent<HoverTurretEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
-            newEnemyRef.GetComponent<HoverTurretEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
-            newEnemyRef.GetComponent<HoverTurretEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyFireRate;
+            newEnemyRef.GetComponent<MissileEnemy>().PlayerTrans = PlayerTrans;
+            newEnemyRef.GetComponent<MissileEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
+            newEnemyRef.GetComponent<MissileEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
+            newEnemyRef.GetComponent<MissileEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyMissileFireRate;
         }
         if (newEnemyRef.name == "ScanTurretPref(Clone)")
         {
