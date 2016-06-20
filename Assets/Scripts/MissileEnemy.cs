@@ -100,8 +100,7 @@ public class MissileEnemy : MonoBehaviour {
     IEnumerator FiringBehavior()
     {
         // Play Sound Fire Laser
-        //Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", gameObject);
-        //FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX_Gun_Laser", gameObject);
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Enemies/MissileTurret_FireWeapon", gameObject);
 
         Transform FiringBarrel = FiringPoints[currentFireBarrel];
         GameObject newMissile = Instantiate(EnemyMissilePrefab, FiringBarrel.position, FiringPoints[currentFireBarrel].rotation) as GameObject;

@@ -42,6 +42,7 @@ public class FighterEnemy : MonoBehaviour {
         TargetSpeed = 20f;
         CurrentSpeed = 5f;
         GetAwayTarget = GetFarPoint();
+
     }
 	
 	// Update is called once per frame
@@ -103,6 +104,12 @@ public class FighterEnemy : MonoBehaviour {
                 break;
         }
 
+        if ((gameObject.transform.position - PlayerTrans.position).magnitude <= 10f)
+        {
+            // Play Sound - Flyby when a certain distance away from player
+            FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Enemies/Fighter_Flyby", gameObject);
+        }
+
         ///BANK CODE NOT QUITE WORKING
         
         Debug.Log("BANK AMOUNT = " + ((transform.eulerAngles.y - lastEulerY) * BankAmount));
@@ -148,7 +155,7 @@ public class FighterEnemy : MonoBehaviour {
     {
         // Play Sound Fire Laser
         //Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", gameObject);
-        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX_Gun_Laser", gameObject);
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Enemies/Fighter_FireWeapon", gameObject);
 
         Transform FiringBarrel = FiringPoints[currentFireBarrel];
         GameObject newLaser = Instantiate(EnemyLaserPrefab, FiringBarrel.position, FiringPoints[currentFireBarrel].rotation) as GameObject;
@@ -182,7 +189,7 @@ public class FighterEnemy : MonoBehaviour {
         ParticleManager._instance.SpawnShildPart(c.transform.position, PlayerTrans.gameObject);
 
         //Play Sound
-        //Fabric.EventManager.Instance.PostEvent("SFX/Enemy/Damage", gameObject);
+        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Enemies/Fighter_TakeDamage", gameObject);
 
         //Reduce health
         UnitHealth--;
@@ -197,11 +204,9 @@ public class FighterEnemy : MonoBehaviour {
     public void DoKilled(Transform c)
     {
         //Playt explosion SFX
-        //Fabric.EventManager.Instance.PostEvent("SFX/Enemy/Explode", gameObject);
         FMODUnity.RuntimeManager.PlayOneShot("event:/SFX_Explosion", gameObject.transform.position);
         FMOD_AudioManager.Instance.SFX_Ship_Rattle.Play();
         FMOD_AudioManager.Instance.SFX_Ship_Rattle.SetParameter("EnemyDistance", (gameObject.transform.position - PlayerTrans.position).magnitude);
-        //Debug.Log("Enemy is this far away: " + (gameObject.transform.position - PlayerTrans.position).magnitude);
 
 
         //Play explosion particle effect
