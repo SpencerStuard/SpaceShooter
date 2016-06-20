@@ -154,8 +154,7 @@ public class FighterEnemy : MonoBehaviour {
     IEnumerator FiringBehavior()
     {
         // Play Sound Fire Laser
-        //Fabric.EventManager.Instance.PostEvent("SFX/Gun/Laser", gameObject);
-        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Enemies/Fighter_FireWeapon", gameObject);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Enemies/Fighter_FireWeapon", gameObject.transform.position);
 
         Transform FiringBarrel = FiringPoints[currentFireBarrel];
         GameObject newLaser = Instantiate(EnemyLaserPrefab, FiringBarrel.position, FiringPoints[currentFireBarrel].rotation) as GameObject;
