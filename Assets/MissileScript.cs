@@ -50,7 +50,7 @@ public class MissileScript : MonoBehaviour {
 
             //TODO ADD IN EFFECT FOR KILLING MISSSILES
 
-            //TODO ADD SOUND EFFECT
+            FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Enemies/MissileTurret_WeaponHit", gameObject.transform.position);
 
             //KILL THE OBJECT
             Destroy(gameObject);

@@ -67,7 +67,7 @@ public class ShipHealth : MonoBehaviour {
             {
                 if (c.GetComponent<LaserScript>())
                 {
-                    Debug.Log("TakingDamage");
+                    //Debug.Log("TakingDamage");
                     MyHealth--;
                     
 
