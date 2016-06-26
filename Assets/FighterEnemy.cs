@@ -188,7 +188,7 @@ public class FighterEnemy : MonoBehaviour {
         ParticleManager._instance.SpawnShildPart(c.transform.position, PlayerTrans.gameObject);
 
         //Play Sound
-        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Enemies/Fighter_TakeDamage", gameObject);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Enemies/Fighter_TakeDamage", gameObject.transform.position);
 
         //Reduce health
         UnitHealth--;

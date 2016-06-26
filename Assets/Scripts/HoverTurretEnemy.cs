@@ -95,7 +95,7 @@ public class HoverTurretEnemy : MonoBehaviour {
             yield return null;
 
         }
-        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Enemies/Hoverbot_TargetLock", gameObject);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Enemies/Hoverbot_TargetLock", gameObject.transform.position);
 
         StartCoroutine("FiringBehavior");
     }
@@ -103,7 +103,7 @@ public class HoverTurretEnemy : MonoBehaviour {
     IEnumerator FiringBehavior()
     {
         // Play Sound Fire Laser
-        FMODUnity.RuntimeManager.PlayOneShotAttached("event:/SFX/Enemies/Hoverbot_WeaponFire", gameObject);
+        FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Enemies/Hoverbot_WeaponFire", gameObject.transform.position);
 
         Transform FiringBarrel = FiringPoints[currentFireBarrel];
         GameObject newLaser = Instantiate(EnemyLaserPrefab, FiringBarrel.position,FiringPoints[currentFireBarrel].rotation) as GameObject;
