@@ -108,7 +108,7 @@ public class GunDirection : MonoBehaviour
             // Get velocity of chair for movement SFX
             SteamVR_Controller.Device deviceL = SteamVR_Controller.Input((int)trackedObjL.index);
             SteamVR_Controller.Device deviceR = SteamVR_Controller.Input((int)trackedObjR.index);
-            //FMOD_AudioManager.Instance.SFX_Gun_Roller.SetParameter("Velocity", (deviceR.velocity.magnitude * deviceL.velocity.magnitude));
+            FMOD_AudioManager.Instance.SFX_Gun_Roller.SetParameter("Velocity", (deviceR.velocity.magnitude * deviceL.velocity.magnitude));
 		}
 
         FireGuns();
