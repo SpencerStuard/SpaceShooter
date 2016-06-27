@@ -6,13 +6,15 @@ public class MissileScript : MonoBehaviour {
     float timeToTarget;
     float missileMaxSpeed;
     float missleAccelerationRate = 1;
+    public AnimationCurve MissileSpeedCurve;
+    public int DamageAmount = 5;
 
-    public void LaunchMissile (Transform MyTarget, float MissleMaxSpeed)
+    public void LaunchMissile(Transform MyTarget, float TimeToTarget)
     {
-        missileMaxSpeed = MissleMaxSpeed;
-
+        //missileMaxSpeed = MissleMaxSpeed;
         //SET SWERVE AMOUNT
         float distanceToTarget = Vector3.Distance(transform.position, MyTarget.position);
+        //totalDistance = distanceToTarget;
         float missleSwerveRatio = .25f;
         float missleSwerveAmount = distanceToTarget * missleSwerveRatio;
 
@@ -25,20 +27,10 @@ public class MissileScript : MonoBehaviour {
         Vector3 Point4 = MyTarget.position;
 
         //PUT OBJECT ON PATH
-        timeToTarget = distanceToTarget;
-        StartCoroutine("AccelerateMissile");
-        iTween.MoveTo(gameObject, iTween.Hash("path", new Vector3[] { Point1, Point2, Point3, Point4 }, "time", timeToTarget, "orienttopath", true, "lookTime", 0.2));
+        //timeToTarget = distanceToTarget;
+        //StartCoroutine("AccelerateMissile");
+        iTween.MoveTo(gameObject, iTween.Hash("path", new Vector3[] { Point1, Point2, Point3, Point4 }, "time", TimeToTarget, "orienttopath", true, "lookTime", 0.2));
 
-    }
-
-    IEnumerator AccelerateMissile()
-    {
-        while (timeToTarget > missileMaxSpeed)
-        {
-            //TODO CHANGE FROM LINEAR TO A EXPONECIAL RATE
-            timeToTarget -= Time.deltaTime * missleAccelerationRate;
-            yield return null;
-        }
     }
 
     void OnTriggerEnter(Collider c)

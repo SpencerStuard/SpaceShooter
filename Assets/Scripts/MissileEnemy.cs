@@ -105,7 +105,7 @@ public class MissileEnemy : MonoBehaviour {
 
         Transform FiringBarrel = FiringPoints[currentFireBarrel];
         GameObject newMissile = Instantiate(EnemyMissilePrefab, FiringBarrel.position, FiringPoints[currentFireBarrel].rotation) as GameObject;
-        newMissile.GetComponent<MissileScript>().LaunchMissile(PlayerTrans, 5f);
+        newMissile.GetComponent<MissileScript>().LaunchMissile(PlayerTrans, 10f);
         if (currentFireBarrel < FiringPoints.Count - 1)
         {
             currentFireBarrel++;
