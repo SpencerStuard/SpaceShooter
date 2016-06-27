@@ -73,9 +73,9 @@ public class SpawnManager : MonoBehaviour {
             if (timeSinceLastSpawn > spawnWaitTime && currentWaveEnemyCount < WaveValues[CurrentWaveNumber].NumberOfEnemies)
             {
                 StartCoroutine(SpawnEnemy());
-                currentWaveEnemyCount++;
+                
             }
-
+           
             if (currentWaveEnemyCount == WaveValues[CurrentWaveNumber].NumberOfEnemies && EnemyParent.childCount == 0)
             {
                 IsInwave = false;
@@ -116,7 +116,7 @@ public class SpawnManager : MonoBehaviour {
         }
 
         // Audio for Missile Turrets
-        if (EnemyParent.FindChild("MissleTurretPref(Clone)") != null)
+        if (EnemyParent.FindChild("MissleEnemyPref(Clone)") != null)
         {
             FMOD_AudioManager.Instance.MUS_Battle.SetParameter("HighBrassToggle", 1);
             FMOD_AudioManager.Instance.MUS_Battle.SetParameter("MidStringsToggle", 1);
@@ -165,6 +165,7 @@ public class SpawnManager : MonoBehaviour {
     public void SetUpWave (int WaveNumber)
     {
         CurrentWaveNumber = WaveNumber;
+        Debug.Log("SPWAN MANAGER = " + CurrentWaveNumber);
         currentWaveEnemyCount = 0;
         timeSinceLastSpawn = 0;
         spawnWaitTime = 0;
@@ -209,8 +210,10 @@ public class SpawnManager : MonoBehaviour {
         //newEnemy
         GameObject tempNewEnemy = PickEnemy();
         GameObject newEnemy = Instantiate(tempNewEnemy, SpawnLocation,randomRotation) as GameObject;
+        //Debug.LogError("Break");
         newEnemy.transform.parent = EnemyParent;
-        SetUpNewEnemyStatsFromWave(newEnemy);        
+        SetUpNewEnemyStatsFromWave(newEnemy);
+        currentWaveEnemyCount++;
     }
 
     void SetUpNewEnemyStatsFromWave(GameObject newEnemyRef)
@@ -224,23 +227,25 @@ public class SpawnManager : MonoBehaviour {
         }
         if (newEnemyRef.name == "MissileEnemyPref(Clone)")
         {
+            Debug.Log("DEBUG MISSILES");
             newEnemyRef.GetComponent<MissileEnemy>().PlayerTrans = PlayerTrans;
             newEnemyRef.GetComponent<MissileEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
-            newEnemyRef.GetComponent<MissileEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
+            newEnemyRef.GetComponent<MissileEnemy>().AimTime = WaveValues[CurrentWaveNumber].EnemyAimTime;
+            newEnemyRef.GetComponent<MissileEnemy>().AimSpeed = 1f;
             newEnemyRef.GetComponent<MissileEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyMissileFireRate;
         }
         if (newEnemyRef.name == "ScanTurretPref(Clone)")
         {
             newEnemyRef.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
             newEnemyRef.GetComponent<HoverTurretEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
-            newEnemyRef.GetComponent<HoverTurretEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().AimTime = WaveValues[CurrentWaveNumber].EnemyAimTime;
             newEnemyRef.GetComponent<HoverTurretEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyFireRate;
         }
         if (newEnemyRef.name == "CargoPref(Clone)")
         {
             newEnemyRef.GetComponent<HoverTurretEnemy>().PlayerTrans = PlayerTrans;
             newEnemyRef.GetComponent<HoverTurretEnemy>().Accuracy = WaveValues[CurrentWaveNumber].EnemyAccuracy;
-            newEnemyRef.GetComponent<HoverTurretEnemy>().AimSpeed = WaveValues[CurrentWaveNumber].EnemyAimTime;
+            newEnemyRef.GetComponent<HoverTurretEnemy>().AimTime = WaveValues[CurrentWaveNumber].EnemyAimTime;
             newEnemyRef.GetComponent<HoverTurretEnemy>().FireRate = WaveValues[CurrentWaveNumber].EnemyFireRate;
         }
         if (newEnemyRef.name == "FighterPref(Clone)")
@@ -255,6 +260,7 @@ public class SpawnManager : MonoBehaviour {
     GameObject PickEnemy()
     {
         GameObject EnemyGo = null;
+        //Debug.LogError("WAVE DATA I AM ABOUT TO GRAB = " + CurrentWaveNumber);
         float EW01 = WaveValues[CurrentWaveNumber].Enemy01Weight;
         float EW02 = WaveValues[CurrentWaveNumber].Enemy02Weight;
         float EW03 = WaveValues[CurrentWaveNumber].Enemy03Weight;

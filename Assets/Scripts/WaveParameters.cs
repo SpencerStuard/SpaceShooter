@@ -29,7 +29,7 @@ public class WaveParameters {
     public float EnemyFireRate;
     [Range(1f, 2f)]
     public float EnemyMissileFireRate;
-    [Range(0f, 1f)]
+    [Range(0f, 5f)]
     public float EnemyAimTime;
 
 }

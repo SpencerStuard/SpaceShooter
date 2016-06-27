@@ -56,7 +56,7 @@ public class HoverTurretEnemy : MonoBehaviour {
         while (c < t)
         {
             GOHead.rotation = Quaternion.Slerp(FromDirection, LookDirection, rotateAmount );
-            rotateAmount += (Time.deltaTime * AimSpeed);
+            rotateAmount += (Time.deltaTime/t);
             c += Time.deltaTime;
             yield return null;
             
@@ -72,7 +72,7 @@ public class HoverTurretEnemy : MonoBehaviour {
         while (c < t)
         {
             GOBase.rotation = Quaternion.Slerp(FromDirection, LookDirection, rotateAmount);
-            rotateAmount += (Time.deltaTime * AimSpeed);
+            rotateAmount += (Time.deltaTime/t);
             c += Time.deltaTime;
             yield return null;
 
@@ -90,7 +90,7 @@ public class HoverTurretEnemy : MonoBehaviour {
         {
             GOLeftGun.rotation = Quaternion.Slerp(LFromDirection, LookDirection, rotateAmount);
             GORightGun.rotation = Quaternion.Slerp(RFromDirection, LookDirection, rotateAmount);
-            rotateAmount += (Time.deltaTime * AimSpeed);
+            rotateAmount += (Time.deltaTime/t);
             c += Time.deltaTime;
             yield return null;
 

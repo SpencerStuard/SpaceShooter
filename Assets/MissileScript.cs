@@ -27,7 +27,7 @@ public class MissileScript : MonoBehaviour {
         //PUT OBJECT ON PATH
         timeToTarget = distanceToTarget;
         StartCoroutine("AccelerateMissile");
-        iTween.MoveTo(gameObject, iTween.Hash("path", new Vector3[] { Point1, Point2, Point3, Point4 }, "time", timeToTarget, "orienttopath", true));
+        iTween.MoveTo(gameObject, iTween.Hash("path", new Vector3[] { Point1, Point2, Point3, Point4 }, "time", timeToTarget, "orienttopath", true, "lookTime", 0.2));
 
     }
 

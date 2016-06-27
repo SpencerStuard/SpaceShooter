@@ -90,6 +90,7 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(2f);
         MainTextObject.gameObject.SetActive(false);
         SpawnManager._instance.SetUpWave(WaveNumber);
+        Debug.Log("Wave we ar going into = " + WaveNumber);
     }
 
     public void StartNextWaveUI(int WaveNumber)

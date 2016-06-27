@@ -57,7 +57,7 @@ public class MissileEnemy : MonoBehaviour {
         while (c < t)
         {
             GOHead.rotation = Quaternion.Slerp(FromDirection, LookDirection, rotateAmount);
-            rotateAmount += (Time.deltaTime * AimSpeed);
+            rotateAmount += (Time.deltaTime/t);
             c += Time.deltaTime;
             yield return null;
 
@@ -73,7 +73,7 @@ public class MissileEnemy : MonoBehaviour {
         while (c < t)
         {
             GOBase.rotation = Quaternion.Slerp(FromDirection, LookDirection, rotateAmount);
-            rotateAmount += (Time.deltaTime * AimSpeed);
+            rotateAmount += (Time.deltaTime/t);
             c += Time.deltaTime;
             yield return null;
 
@@ -88,7 +88,7 @@ public class MissileEnemy : MonoBehaviour {
         while (c < t)
         {
             GOMissileHolder.rotation = Quaternion.Slerp(MissileHolderDirection, LookDirection, rotateAmount);
-            rotateAmount += (Time.deltaTime * AimSpeed);
+            rotateAmount += (Time.deltaTime/t);
             c += Time.deltaTime;
             yield return null;
 
@@ -99,6 +99,7 @@ public class MissileEnemy : MonoBehaviour {
 
     IEnumerator FiringBehavior()
     {
+        Debug.Log("FIRING MISSILE");
         // Play Sound Fire Laser
         FMODUnity.RuntimeManager.PlayOneShot("event:/SFX/Enemies/MissileTurret_FireWeapon", gameObject.transform.position);
 
