@@ -134,6 +134,8 @@ public class GameManager : MonoBehaviour {
         //Play Lose Music
         FMOD_AudioManager.Instance.MUS_Battle.Stop();
         FMOD_AudioManager.Instance.MUS_LoseStinger.Play();
+
+        
     }
 
     IEnumerator StartEndGameUI ()

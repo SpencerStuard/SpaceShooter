@@ -13,7 +13,7 @@ public class FighterEnemy : MonoBehaviour {
     public Transform PlayerTrans;
     float distanceToPlayer;
 
-    int UnitHealth = 20;
+    int UnitHealth = 10;
 
     public float CurrentSpeed = 0;
     public float TargetSpeed = 1f;
@@ -112,7 +112,7 @@ public class FighterEnemy : MonoBehaviour {
 
         ///BANK CODE NOT QUITE WORKING
         
-        Debug.Log("BANK AMOUNT = " + ((transform.eulerAngles.y - lastEulerY) * BankAmount));
+        //Debug.Log("BANK AMOUNT = " + ((transform.eulerAngles.y - lastEulerY) * BankAmount));
         targetBankAmount = (lastEulerY - transform.eulerAngles.y) * BankAmount;
         currentBankAmount = Mathf.Lerp(currentBankAmount, targetBankAmount, Time.deltaTime * BankSpeed);
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, currentBankAmount);

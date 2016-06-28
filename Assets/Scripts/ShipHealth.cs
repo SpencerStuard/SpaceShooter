@@ -39,6 +39,8 @@ public class ShipHealth : MonoBehaviour {
 	void Update () {
         HealthUI.text = Mathf.RoundToInt(MyHealth).ToString();
         RechargeHealth();
+
+
     }
 
     void RechargeHealth ()
@@ -75,7 +77,6 @@ public class ShipHealth : MonoBehaviour {
                     ParticleManager._instance.SpawnPlayerDamageEffect(c.transform.position);
                     //Fabric.EventManager.Instance.PostEvent("SFX/Player/Damage", gameObject);
                 }
-
             }
             if (c.transform.tag == "EnemyMissile")
             {
@@ -90,9 +91,19 @@ public class ShipHealth : MonoBehaviour {
                     
                     //TODO BRENNAN ADD PLAYER DAMAGE SOUND FOR MISSILES
                 }
-
             }
+        }
 
+        CheckDeath();
+    }
+
+    void CheckDeath()
+    {
+        if(MyHealth <= 0)
+        {
+            GameManager.Instance.PlayerDied();
+
+            MyHealth = 0;
         }
     }
 }
